@@ -18,7 +18,7 @@ while(my $line = <LIST>){
 	if ($line =~ m%http[^\:]?\:\/\/[^\s]+% and $line =~ m%$filter%){
 		my ($URL) = $line =~ m%(http[^\:]?\:\/\/[^\s]+)%;
 		$URL =~ s%"%%gi;
-		$URL =~ s%i%%gi;
+		$URL =~ s%'%%gi;
 		print STDOUT "$URL\n";
 	}
 }
