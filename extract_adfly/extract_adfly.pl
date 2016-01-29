@@ -14,7 +14,7 @@ my $URL = $opt{'u'};
 require 'crawler.pm';
 @results = TOOLS_CRAWLER::complexGET($URL,undef,[],[],[('https://drive.google.com/file/d/', '/', '/')]);
 if ($#results >= 3 ){
-	print STDERR 'Google Drive document = ' .  $results[3]. "\n";
+	print STDOUT 'Google Drive document = ' .  $results[3]. "\n";
 }
 
 

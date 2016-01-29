@@ -21,6 +21,8 @@ open(LIST, './'.$file) or die ('cannot open input'.$file);
 
 while(my $line = <LIST>){
 	$line =~ s%\n%%;
-	`$commandStart$line$commandEnd`;
+	#$output = `$commandStart$line$commandEnd`;
+	system "$commandStart$line$commandEnd";
+	#print STDOUT $output . "\perl n";
 }
 close(LIST);
