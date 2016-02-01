@@ -9,6 +9,11 @@ my %opt;
 die (USAGE) unless (getopts ('u:1:2:3:l',\%opt));
 
 my $URL = $opt{'u'};
+
+if ($URL eq ''){
+	$URL = <>;
+}
+
 my $searchCriteria = quotemeta $opt{'1'};
 my $extractStart = quotemeta $opt{'2'};
 my $extractEnd = quotemeta $opt{'3'};

@@ -12,7 +12,7 @@ my $file = $opt{'f'};
 my $filter = $opt{'F'};
 
 
-open(LIST, './'.$file) or die ('cannot open input'.$file);
+open(LIST, $file) or die ('cannot open input '.$file);
 
 while(my $line = <LIST>){
 	if ($line =~ m%http[^\:]?\:\/\/[^\s]+% and $line =~ m%$filter%){

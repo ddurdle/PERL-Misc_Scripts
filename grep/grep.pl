@@ -17,7 +17,7 @@ my $grepStart = $opt{'1'};
 my $grepEnd = $opt{'2'};
 
 if ($file ne ''){
-	open(LIST, './'.$file) or die ('cannot open input'.$file);
+	open(LIST, $file) or die ('cannot open input '.$file);
 }else{
 	open(LIST, '<-') or die ('cannot open STDIN');
 
