@@ -33,7 +33,7 @@ package TOOLS_CRAWLER;
 
 =head2 Constants
 
-=over 
+=over
 
 =item * SUCCESS
 
@@ -173,7 +173,7 @@ sub complexGET($$@@@){
 
   my $req = new HTTP::Request GET => "$site";
   $cookie_jar->add_cookie_header($req);
- 
+
   return complexWEB($site,$file,\@successStrings,\@failureStrings,\@fetch, $req);
 }
 
@@ -452,7 +452,7 @@ sub complexWEB($$@@@$){
       }
       print STDERR "\t\tfound (fetch criteria \#$i) --> ". ($#{$fetchResults[$i]}+1) . "\n"  if (CONFIG->DEBUG);
     }
-	
+
     my $success = "";
     for (my $i=0; $i<($#successResponses + 1); $i++){
       if ($successResponses[$i][1]==0){
@@ -582,7 +582,7 @@ sub simpleHEAD($){
 
   my $req = new HTTP::Request HEAD => "$site";
   return simpleWEB($site, $req);
-	
+
 }
 
 
@@ -685,7 +685,7 @@ sub fixViewState($){
   my $viewState = shift;
   $viewState =~ s#\+#%2B#g;
   $viewState =~ s#\=#%3D#g;
-  return $viewState; 
+  return $viewState;
 
 }
 

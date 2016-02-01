@@ -16,9 +16,11 @@ open(LIST, './'.$file) or die ('cannot open input'.$file);
 
 while(my $line = <LIST>){
 	if ($line =~ m%http[^\:]?\:\/\/[^\s]+% and $line =~ m%$filter%){
-		my ($URL) = $line =~ m%(http[^\:]?\:\/\/[^\s]+)%;
-		$URL =~ s%"%%gi;
-		$URL =~ s%'%%gi;
+		my ($URL) = $line =~ m%href\=\s?(http[^\:]?\:\/\/[^\"]+)%;
+		($URL) = $line =~ m%(http[^\:]?\:\/\/[^\"]+)% if ($URL eq '');
+		($URL) = $line =~ m%(http[^\:]?\:\/\/[^\s]+)% if ($URL eq '');
+		#$URL =~ s%"%%gi;
+		#$URL =~ s%'%%gi;
 		print STDOUT "$URL\n";
 	}
 }
