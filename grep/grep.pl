@@ -16,7 +16,12 @@ my $file = $opt{'f'};
 my $grepStart = $opt{'1'};
 my $grepEnd = $opt{'2'};
 
-open(LIST, './'.$file) or die ('cannot open input'.$file);
+if ($file ne ''){
+	open(LIST, './'.$file) or die ('cannot open input'.$file);
+}else{
+	open(LIST, '<-') or die ('cannot open STDIN');
+
+}
 
 while(my $line = <LIST>){
 	$line =~ s%\n%%;
