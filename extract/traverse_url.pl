@@ -16,7 +16,7 @@ if ($URL eq ''){
 
 my $searchCriteria = quotemeta $opt{'1'};
 my $extractStart = quotemeta $opt{'2'};
-my $extractEnd = quotemeta $opt{'3'};
+my $extractEnd =  $opt{'3'}; #quotemeta $opt{'3'};
 my $lastOnly = 0;
 if (defined($opt{'l'})){
 	$lastOnly = 1;
