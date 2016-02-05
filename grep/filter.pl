@@ -11,7 +11,7 @@ my %opt;
 die (USAGE) unless (getopts ('f:F:',\%opt));
 
 my $file = $opt{'f'};
-my $filter = $opt{'F'};
+my $filter = $opt{'F'};#quotemeta $opt{'F'};
 
 if ($file ne ''){
 	open(LIST, $file) or die ('cannot open input '.$file);
@@ -20,7 +20,7 @@ if ($file ne ''){
 }
 
 while(my $line = <LIST>){
-	$line =~ s%\Q$filter\E%%g;
+	$line =~ s%$filter%%g;
 	print STDOUT $line;
 
 }
