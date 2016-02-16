@@ -28,11 +28,11 @@ sub scanDir($$){
 my $directory = shift;
 my $directoryDestination = shift;
 if ($directoryDestination eq ''){
-  $directoryDestination = $directory.'_resized';
+  $directoryDestinationLocal = $directory.'_resized';
 }else{
-  $directoryDestination = $directoryDestination.'_resized';
+  $directoryDestinationLocal = $directoryDestination.'_resized';
 }
-mkdir $directoryDestination if (!(-e $directoryDestination));
+mkdir $directoryDestinationLocal if (!(-e $directoryDestinationLocal));
 
 opendir(IMD, $directory) || die("Cannot open directory");
 my @thefiles= readdir(IMD);
@@ -55,7 +55,7 @@ foreach my $f (@thefiles)
       	$f =~ s%\;%\\\;%g;
 		my $printDirectory = $directory;
 		$printDirectory =~ s% %\\ %g;
-		my $printDirectoryDestination = $directoryDestination;
+		my $printDirectoryDestination = $directoryDestinationLocal;
 		$printDirectoryDestination =~ s% %\\ %g;
 		`convert -resize $resolution $printDirectory/$f $printDirectoryDestination/$f`;
        # `convert -size $resolution "$directory/$f" -resize $resolution "$directoryDestination/$f"`;
