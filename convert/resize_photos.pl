@@ -15,11 +15,13 @@ my $resolution = '2048x1536';
 
 
 my %opt;
-die ($usage) unless (getopts ('d:', \%opt));
+die ($usage) unless (getopts ('d:D:', \%opt));
 
 die($usage) unless ($opt{d} ne '');
 
-scanDir($opt{d});
+#my $destinationDIR = $opt{D};
+
+scanDir($opt{d}, $opt{D});
 
 sub scanDir($$){
 
