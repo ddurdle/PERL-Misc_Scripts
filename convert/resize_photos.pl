@@ -1,6 +1,4 @@
-#
-# changes the casing of filenames either from lowercase to UPPERCASE
-#
+
 
 
 ######
