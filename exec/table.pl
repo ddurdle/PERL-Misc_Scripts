@@ -28,7 +28,7 @@ while(my $line = <LIST>){
 	$cmdline =~ s/%1%/${entry1}/;
 	$cmdline =~ s/%2%/${entry2}/;
 	print "$cmdline \n";
-	#system "$commandStart$line$commandEnd";
-	#print STDOUT $output . "\perl n";
+	system "$cmdline";
+
 }
 close(LIST);
