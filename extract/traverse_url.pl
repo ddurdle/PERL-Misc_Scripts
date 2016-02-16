@@ -6,7 +6,7 @@
 use Getopt::Std;		# and the getopt module
 
 my %opt;
-die (USAGE) unless (getopts ('u:1:2:3:l:4:5:6',\%opt));
+die (USAGE) unless (getopts ('u:1:2:3:l4:5:6',\%opt));
 
 my $URL = $opt{'u'};
 
