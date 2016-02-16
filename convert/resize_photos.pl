@@ -32,7 +32,6 @@ if ($directoryDestination eq ''){
 }else{
   $directoryDestinationLocal = $directoryDestination.'_resized';
 }
-mkdir $directoryDestinationLocal if (!(-e $directoryDestinationLocal));
 
 opendir(IMD, $directory) || die("Cannot open directory");
 my @thefiles= readdir(IMD);
@@ -46,7 +45,9 @@ foreach my $f (@thefiles)
       print STDERR "navigating into $f\n";
       scanDir("$directory/$f","$directoryDestination/$f");
     }else{
-      if (!(-e "$directoryDestination/$f")){
+	  mkdir $directoryDestinationLocal if (!(-e $directoryDestinationLocal));
+
+      if (!(-e "$directoryDestinationLocal/$f")){
         print STDERR "start resize $f...";
 		$f =~ s%\&%\\\&%g;
       	$f =~ s%\(%\\\(%g;
