@@ -26,9 +26,14 @@ if ($file ne ''){
 
 }
 
+my $previous='';
 while(my $line = <LIST>){
 	$line =~ s%\n%%;
-	my ($value1, $value2) = $line =~ m%\Q$grep1Start\E(.*)\Q$grep1End\E.*\Q$grep2Start\E([^\Q$grep2End\E]+)\Q$grep2End\E%;
-	print STDOUT $value1 . "\t" .$value2 . "\n" if $value1 ne '';
+	my ($value1, $value2) = ($previous.$line) =~ m%\Q$grep1Start\E(.*)\Q$grep1End\E.*\Q$grep2Start\E([^\Q$grep2End\E]+)\Q$grep2End\E%;
+	if ($value1 ne ''){
+		print STDOUT $value1 . "\t" .$value2 . "\n";
+	}else{
+		$previous = $line;
+	}
 }
 close(LIST);
