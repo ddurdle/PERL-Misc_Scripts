@@ -4,7 +4,6 @@
 #  Parameters
 #  -f file containing data
 #  -c command to run
-#    command to run: <1><f><2>
 ###
 
 use Fcntl;
