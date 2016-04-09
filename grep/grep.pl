@@ -25,7 +25,7 @@ if ($file ne ''){
 
 while(my $line = <LIST>){
 	$line =~ s%\n%%;
-	my ($value) = $line =~ m%\Q$grepStart\E(.*)\Q$grepEnd\E%;
+	my ($value) = $line =~ m%\Q$grepStart\E(.*?)\Q$grepEnd\E%;
 	print STDOUT $value . "\n" if $value ne '';
 }
 close(LIST);
