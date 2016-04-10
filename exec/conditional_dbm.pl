@@ -31,7 +31,7 @@ while(my $line = <LIST>){
 	my ($entry1) = $line =~ m%([^\n]+)\n%;
 	my $cmdline = $command;
 	if ($dbase{$entry1} != 1){
-		$cmdline =~ s/%1%/${entry1}/;
+		$cmdline =~ s/%1%/${entry1}/g;
 		print "$cmdline \n";
 		my $ret = system "$cmdline";
 		print $ret;
