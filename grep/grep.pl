@@ -24,8 +24,13 @@ if ($file ne ''){
 }
 
 while(my $line = <LIST>){
-	$line =~ s%\n%%;
-	my ($value) = $line =~ m%\Q$grepStart\E(.*?)\Q$grepEnd\E%;
+	my $value;
+	if ($grepEnd ne ''){
+		$line =~ s%\n%%;
+		($value) = $line =~ m%\Q$grepStart\E(.*?)\Q$grepEnd\E%;
+	}else{
+		($value) = $line =~ m%\Q$grepStart\E(.*?)\n%;
+	}
 	print STDOUT $value . "\n" if $value ne '';
 }
 close(LIST);
