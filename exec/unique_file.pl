@@ -32,4 +32,4 @@ do{
 	$newfilename =~ s/%1%/$count/g;
 	$count++;
 }while (-e $directory . '/'.$newfilename);
-print 'unique filename = '.$newfilename. "\n";
+print STDOUT $newfilename;
