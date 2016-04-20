@@ -433,9 +433,10 @@ sub complexWEB($$@@@$){
       }
       my $j=0;
       for (my $i=0; $i<($#fetch +1); $i+=3){
-        if ($line =~ m%${fetch[$i]}[^$fetch[$i+1]]+$fetch[$i+2]%){
+        while ($line =~ m%${fetch[$i]}[^$fetch[$i+1]]+$fetch[$i+2]%){
           my ($result) = $line =~ m%$fetch[$i]([^$fetch[$i+1]]+)$fetch[$i+2]%;
           push(@{$fetchResults[$i/3]},$result);
+          $line =~ s%$fetch[$i]([^$fetch[$i+1]]+)$fetch[$i+2]%%;
         }
 
       }
