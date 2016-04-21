@@ -9,7 +9,6 @@
 #
 ###
 
-package PDRIVE;
 
 
 
@@ -27,16 +26,16 @@ my %opt;
 die (USAGE) unless (getopts ('d:pc',\%opt));
 my $dbm_file = $opt{d};
 
-&PDRIVE::DBM::init($dbm_file);
+&DBM::init($dbm_file);
 
 if ($opt{p}){
-	&PDRIVE::DBM::printDBHash();
+	&DBM::printDBHash();
 }elsif ($opt{c}){
-	&PDRIVE::DBM::countDBHash();
+	&DBM::countDBHash();
 }
 
 {
-package PDRIVE::DBM;
+package DBM;
 
 use DB_File;
 use Fcntl;
