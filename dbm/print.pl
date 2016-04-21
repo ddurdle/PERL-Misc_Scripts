@@ -20,10 +20,13 @@ use constant DEBUG_LOG => 'debug.log';
 
 
 use Getopt::Std;
-use constant USAGE => " usage: $0 [-d dbm]\n";
+use constant USAGE => " usage: $0 [-d dbm] [-p] [-c]\n";
 
 my %opt;
 die (USAGE) unless (getopts ('d:pc',\%opt));
+
+die(USAGE) if $opt{d} eq '' or (not defined ($opt{p}) and not defined ($opt{c}));
+
 my $dbm_file = $opt{d};
 
 &DBM::init($dbm_file);
