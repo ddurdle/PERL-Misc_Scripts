@@ -20,16 +20,16 @@ my $isRetry = $opt{'r'};
 while(1){
 	my $ret = `$command`;
 	if ($success ne '' and $ret =~ m%\Q$success\E%){
-		return 0;
+		exit 0;
 		last;
 	}elsif ($failure ne '' and $ret =~ m%\Q$failure\E%){
-		return 1;
+		exit 1;
 	}elsif ($failure ne '' and $success eq '' ){
-		return 1;
+		exit 1;
 		last;
 	}else{
 		print 'output = '.$ret;
-		return 0;
+		exit 0;
 		last;
 	}
 }
