@@ -38,7 +38,9 @@ for (my$i=0;$i<= $retryCount; $i++){
 }
 if ($isFailure){
 	`$failureCmd`;
+	exit(-1);
 }else{
 	`$successCmd`;
+	exit(0);
 }
 
