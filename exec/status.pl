@@ -33,7 +33,7 @@ for (my$i=0;$i<= $retryCount; $i++){
 		last;
 	}else{
 		print 'output = '.$ret;
-		$isFailure=0;
+		$isFailure=1;
 	}
 }
 if ($isFailure){

@@ -36,7 +36,7 @@ while(my $line = <LIST>){
 		my $ret = system "$cmdline";
 		print $ret;
 		#don't count if command fails
-		if ($ret != -1){
+		if ($ret ne '-1'){
 			$dbase{$entry1} = 1;
 		}
 	}else{
