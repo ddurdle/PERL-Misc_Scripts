@@ -27,7 +27,7 @@ if ($dbase{$value} != 1){
 	print $ret;
 	#don't count if command fails
 	if ($ret ne '-1'){
-		$dbase{$entry1} = 1;
+		$dbase{$value} = 1;
 	}
 }else{
 	print "skip $entry1\n";
