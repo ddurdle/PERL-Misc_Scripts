@@ -25,8 +25,8 @@ if ($file ne ''){
 while(my $line = <LIST>){
 	my ($entry1, $entry2) = $line =~ m%([^\t]+)\t([^\n]+)\n%;
 	my $cmdline = $command;
-	$cmdline =~ s/%1%/${entry1}/;
-	$cmdline =~ s/%2%/${entry2}/;
+	$cmdline =~ s/%1%/${entry1}/g;
+	$cmdline =~ s/%2%/${entry2}/g;
 	print "$cmdline \n";
 	system "$cmdline";
 
