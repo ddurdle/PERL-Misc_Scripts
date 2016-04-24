@@ -53,7 +53,7 @@ while ($URL ne ''){
 	}
 	for (my $i=3; $i <=$#results; $i = $i+2){
 		next if $results[$i] eq $URL;
-		print STDOUT 'Found = ' .  $results[$i]. "\n" if (not $lastOnly or $i == $#results);
+		print STDOUT $results[$i]. "\n" if (not $lastOnly or $i == $#results);
 	}
 	if ($isList){
 		$URL = <LIST>;
