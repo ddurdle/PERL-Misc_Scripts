@@ -83,6 +83,27 @@ $ua->default_headers->push_header('Accept-Language' => "en-us");
 ###
 
 
+sub setHeaders($){
+	my $headers = shift;
+
+	while ($headers =~ m%\|%){
+		my ($key,$value) = $headers =~ m%^([^\:]+)\:([^\|]+)\|%;
+		$headers =~ s%^([^\|]+)\|%%;
+		print $key . ' ' .$value . "\n";
+		if ($key eq 'User-Agent'){
+			$ua->agent($value);		   # set the identity
+		}else{
+			$ua->default_headers->push_header($key => $value);
+		}
+
+
+	}
+	my ($key,$value) = $headers =~ m%([^\:]+)\:(.*?)$%;
+	$ua->default_headers->push_header($key => $value);
+	print $key . ' ' .$value . "\n";
+
+}
+
 
 
 ######
@@ -400,16 +421,6 @@ sub complexWEB($$@@@$){
   if($res->is_success or ($res->code >= 300 and $res->code < 400)){
 
     my $block = $res->as_string;
-
-    if (CONFIG->DEBUG){
-      open (STORE, "> " . $file) or die("Cannot save " .$file ." file\n");
-      flock(STORE,LOCK_EX);
-      seek(STORE, 0, 2);
-      print STORE $req->as_string;
-      print STORE $res->as_string;
-      flock(STORE,LOCK_UN);
-      close(STORE);
-    }
 
 
     while (my ($line) = $block =~ m%([^\n]*)\n%){
