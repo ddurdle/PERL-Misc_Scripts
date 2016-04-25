@@ -89,7 +89,6 @@ sub setHeaders($){
 	while ($headers =~ m%\|%){
 		my ($key,$value) = $headers =~ m%^([^\:]+)\:([^\|]+)\|%;
 		$headers =~ s%^([^\|]+)\|%%;
-		print $key . ' ' .$value . "\n";
 		if ($key eq 'User-Agent'){
 			$ua->agent($value);		   # set the identity
 		}else{
@@ -100,7 +99,6 @@ sub setHeaders($){
 	}
 	my ($key,$value) = $headers =~ m%([^\:]+)\:(.*?)$%;
 	$ua->default_headers->push_header($key => $value);
-	print $key . ' ' .$value . "\n";
 
 }
 
@@ -413,8 +411,8 @@ sub complexWEB($$@@@$){
   }
 
   if (CONFIG->DEBUG){
-    print $req->as_string;
-    print $res->as_string;
+    print STDERR $req->as_string;
+    print STDERR $res->as_string;
   }
 
 
@@ -646,8 +644,8 @@ sub simpleWEB($$){
   $cookie_jar->extract_cookies($res);
 
   if (CONFIG->DEBUG){
-    print $req->as_string;
-    print $res->as_string;
+    print STDERR $req->as_string;
+    print STDERR $res->as_string;
   }
 
   if($res->is_success or ($res->code >= 300 and $res->code < 400)){
