@@ -411,8 +411,8 @@ sub complexWEB($$@@@$){
   }
 
   if (CONFIG->DEBUG){
-    print $req->as_string;
-    print $res->as_string;
+    print STDERR $req->as_string;
+    print STDERR $res->as_string;
   }
 
 
@@ -644,8 +644,8 @@ sub simpleWEB($$){
   $cookie_jar->extract_cookies($res);
 
   if (CONFIG->DEBUG){
-    print $req->as_string;
-    print $res->as_string;
+    print STDERR $req->as_string;
+    print STDERR $res->as_string;
   }
 
   if($res->is_success or ($res->code >= 300 and $res->code < 400)){
