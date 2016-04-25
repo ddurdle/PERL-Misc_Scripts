@@ -89,7 +89,6 @@ sub setHeaders($){
 	while ($headers =~ m%\|%){
 		my ($key,$value) = $headers =~ m%^([^\:]+)\:([^\|]+)\|%;
 		$headers =~ s%^([^\|]+)\|%%;
-		print $key . ' ' .$value . "\n";
 		if ($key eq 'User-Agent'){
 			$ua->agent($value);		   # set the identity
 		}else{
@@ -100,7 +99,6 @@ sub setHeaders($){
 	}
 	my ($key,$value) = $headers =~ m%([^\:]+)\:(.*?)$%;
 	$ua->default_headers->push_header($key => $value);
-	print $key . ' ' .$value . "\n";
 
 }
 
