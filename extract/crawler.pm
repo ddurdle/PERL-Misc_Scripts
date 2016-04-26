@@ -102,7 +102,11 @@ sub setHeaders($){
 
 }
 
-
+sub setReferer($){
+	my $referer = shift;
+	$ua->default_headers->push_header('Referer' => $referer);
+print STDERR "in\n";
+}
 
 ######
 #

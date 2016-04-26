@@ -8,7 +8,7 @@
 use Getopt::Std;		# and the getopt module
 
 my %opt;
-die (USAGE) unless (getopts ('u:1:2:3:4:5:6:7:8:9:lh:',\%opt));
+die (USAGE) unless (getopts ('u:1:2:3:4:5:6:7:8:9:lh:r',\%opt));
 
 my $URL = $opt{'u'};
 my $headers = $opt{'h'};
@@ -23,7 +23,6 @@ my $searchCriteria3 = quotemeta $opt{'7'};
 my $extractStart3 =  quotemeta  $opt{'8'};#
 my $extractEnd3 = quotemeta $opt{'9'};#quotemeta $opt{'3'};
 
-
 #my $extractStart = quotemeta $opt{'2'};
 
 my $lastOnly = 0;
@@ -33,10 +32,12 @@ if (defined($opt{'l'})){
 
 require 'crawler.pm';
 
+
 if ($headers ne ''){
 
 	TOOLS_CRAWLER::setHeaders($headers);
 }
+
 
 my $isList=0;
 if ($URL eq ''){
@@ -44,7 +45,9 @@ if ($URL eq ''){
 	open(LIST, '<-') or die ('cannot open STDIN');
 	$URL = <LIST>;
 }
-
+if  ($opt{'r'}){
+	TOOLS_CRAWLER::setReferer($URL);
+}
 while ($URL ne ''){
 
 	if ($searchCriteria3 ne '' ){
