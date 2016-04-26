@@ -2,14 +2,16 @@
 # Save each line as a column in a table
 #  Parameters
 #  -f file containing data
+#  -c count before new row
 ###
 
 use Getopt::Std;		# and the getopt module
 
 my %opt;
-die (USAGE) unless (getopts ('f:',\%opt));
+die (USAGE) unless (getopts ('f:c:',\%opt));
 
 my $file = $opt{'f'};
+my $countNewLine = $opt{'c'};
 
 if ($file ne ''){
 	open(LIST, $file) or die ('cannot open input '.$file);
@@ -18,14 +20,19 @@ if ($file ne ''){
 
 }
 
-my $previous='';
+my $count=1;
 while(my $line = <LIST>){
 	$line =~ s%\n%%;
-	if ($previous ne ''){
+	if ($count !=1 and $count < $countNewLine){
 		print STDOUT "\t";
+		$count++;
+	}elsif ($count == $countNewLine){
+		$count=1;
+		print STDOUT "\n";
+	}else{
+		$count++;
 	}
 	print STDOUT $line;
-	$previous = $line;
 }
 close(LIST);
 print STDOUT "\n";
