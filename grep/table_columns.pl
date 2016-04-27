@@ -23,16 +23,16 @@ if ($file ne ''){
 my $count=1;
 while(my $line = <LIST>){
 	$line =~ s%\n%%;
-	if ($count !=1 and $count < $countNewLine){
+	print STDOUT $line;
+	if ($count < $countNewLine){
 		print STDOUT "\t";
 		$count++;
 	}elsif ($count == $countNewLine){
 		$count=1;
 		print STDOUT "\n";
-	}else{
-		$count++;
+
 	}
-	print STDOUT $line;
+
 }
 close(LIST);
 print STDOUT "\n";
