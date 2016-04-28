@@ -12,7 +12,7 @@ use DB_File;
 use Getopt::Std;		# and the getopt module
 
 my %opt;
-die (USAGE) unless (getopts ('d:f:c:',\%opt));
+die (USAGE) unless (getopts ('d:f:c:i',\%opt));
 
 my $file = $opt{'f'};
 my $dbm = $opt{'d'};
@@ -30,7 +30,7 @@ tie( my %dbase, DB_File, $opt{d} ,O_CREAT|O_RDWR, 0666) or die "can't open ". $o
 while(my $line = <LIST>){
 	my ($entry1) = $line =~ m%([^\n]+)\n%;
 	my $cmdline = $command;
-	if ($dbase{$entry1} != 1){
+	if ($opt{i} or $dbase{$entry1} != 1){
 		$cmdline =~ s/%1%/${entry1}/g;
 		print "$cmdline \n";
 		my $ret = system "$cmdline";
