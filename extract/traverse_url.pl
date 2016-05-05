@@ -39,7 +39,7 @@ if ($nextCriteria ne ''){
 
 		@results = TOOLS_CRAWLER::complexGET($URL,undef,[],[],[($searchCriteria, $extractStart, $extractEnd)]);
 		for (my $i=3; $i <=$#results; $i = $i+2){
-			print STDOUT 'Found = ' .  $results[$i]. "\n" if (not $lastOnly or $i == $#results);
+			print STDOUT  $results[$i]. "\n" if (not $lastOnly or $i == $#results);
 		}
 		$URL = $nextURL;
 	}
@@ -47,7 +47,7 @@ if ($nextCriteria ne ''){
 }else{
 	@results = TOOLS_CRAWLER::complexGET($URL,undef,[],[],[($searchCriteria, $extractStart, $extractEnd)]);
 	for (my $i=3; $i <=$#results; $i = $i+2){
-		print STDOUT 'Found = ' .  $results[$i]. "\n" if (not $lastOnly or $i == $#results);
+		print STDOUT  $results[$i]. "\n" if (not $lastOnly or $i == $#results);
 	}
 
 }
