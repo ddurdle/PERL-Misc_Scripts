@@ -3,12 +3,13 @@
 #  Parameters
 #  -u url
 #  -s string to grep value from (value = %1%)
+#  -r referer
 ###
 
 use Getopt::Std;		# and the getopt module
 
 my %opt;
-die (USAGE) unless (getopts ('u:1:2:3:4:5:6:7:8:9:lh:r',\%opt));
+die (USAGE) unless (getopts ('u:1:2:3:4:5:6:7:8:9:lh:r:',\%opt));
 
 my $URL = $opt{'u'};
 my $headers = $opt{'h'};
@@ -45,8 +46,8 @@ if ($URL eq ''){
 	open(LIST, '<-') or die ('cannot open STDIN');
 	$URL = <LIST>;
 }
-if  ($opt{'r'}){
-	TOOLS_CRAWLER::setReferer($URL);
+if  ($opt{'r'} ne ''){
+	TOOLS_CRAWLER::setReferer($opt{'r'});
 }
 while ($URL ne ''){
 
