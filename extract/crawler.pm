@@ -70,6 +70,7 @@ my $cookie_jar = HTTP::Cookies->new();
 $ua->cookie_jar($cookie_jar);
 $ua->default_headers->push_header('Accept' => "image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/x-shockwave-flash, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, */*");
 $ua->default_headers->push_header('Accept-Language' => "en-us");
+my $ignoreCookies;
 
 
 ######
@@ -107,6 +108,10 @@ sub setReferer($){
 	$ua->default_headers->push_header('Referer' => $referer);
 print STDERR "in\n";
 }
+sub ignoreCookies(){
+        $ignoreCookies=1;
+}
+
 
 ######
 #
@@ -195,7 +200,7 @@ sub complexGET($$@@@){
   my @returnResults;
 
   my $req = new HTTP::Request GET => "$site";
-  $cookie_jar->add_cookie_header($req);
+  $cookie_jar->add_cookie_header($req) unless ($ignoreCookies);
 
   return complexWEB($site,$file,\@successStrings,\@failureStrings,\@fetch, $req);
 }
@@ -295,8 +300,8 @@ sub complexPOST($$@@@$){
 
   my $req = new HTTP::Request POST => "$site";
   $req->content_type("application/x-www-form-urlencoded");
-  $cookie_jar->add_cookie_header($req);
-  $req->content($param);
+  $cookie_jar->add_cookie_header($req) unless ($ignoreCookies);
+  $req->decoded_content($param);
   return complexWEB($site,$file,\@successStrings,\@failureStrings,\@fetch, $req);
 }
 
@@ -402,7 +407,7 @@ sub complexWEB($$@@@$){
     $res = $ua->request($req); # make the request
   }
 
-  $cookie_jar->extract_cookies($res);
+  $cookie_jar->extract_cookies($res) unless ($ignoreCookies);
 
 
   for (my $i=0; $i<($#successStrings + 1); $i++){
@@ -416,13 +421,13 @@ sub complexWEB($$@@@$){
 
   if (CONFIG->DEBUG){
     print STDERR $req->as_string;
-    print STDERR $res->as_string;
+    print STDERR $res->decoded_content;
   }
 
 
   if($res->is_success or ($res->code >= 300 and $res->code < 400)){
 
-    my $block = $res->as_string;
+    my $block = $res->decoded_content;
 
 
     while (my ($line) = $block =~ m%([^\n]*)\n%){
@@ -640,12 +645,12 @@ sub simpleWEB($$){
   my $site = shift;
   my $req = shift;
 
-  $cookie_jar->add_cookie_header($req);
+  $cookie_jar->add_cookie_header($req) unless ($ignoreCookies);
   my $res = $ua->request($req); # make the request
   for (my $j=0; $j<CONFIG->HTTP_RETRYCOUNT && !($res->is_success or ($res->code >= 300 and $res->code < 400));$j++){
     $res = $ua->request($req); # make the request
   }
-  $cookie_jar->extract_cookies($res);
+  $cookie_jar->extract_cookies($res) unless ($ignoreCookies);
 
   if (CONFIG->DEBUG){
     print STDERR $req->as_string;

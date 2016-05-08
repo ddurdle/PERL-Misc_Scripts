@@ -38,7 +38,7 @@ if ($headers ne ''){
 
 	TOOLS_CRAWLER::setHeaders($headers);
 }
-
+TOOLS_CRAWLER::ignoreCookies();
 
 my $isList=0;
 if ($URL eq ''){
