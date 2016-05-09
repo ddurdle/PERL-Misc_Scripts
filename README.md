@@ -5,3 +5,4 @@ Small miscellaneous scripts in PERL
 * exec
 * extract
 * grep
+* dbm
