@@ -9,7 +9,7 @@
 use Getopt::Std;		# and the getopt module
 
 my %opt;
-die (USAGE) unless (getopts ('u:1:2:3:4:5:6:7:8:9:lh:r',\%opt));
+die (USAGE) unless (getopts ('u:1:2:3:4:5:6:7:8:9:lh:r:',\%opt));
 
 my $URL = $opt{'u'};
 my $headers = $opt{'h'};
