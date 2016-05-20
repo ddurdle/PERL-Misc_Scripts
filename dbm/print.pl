@@ -4,7 +4,7 @@
 # This script is used to debug a dbm file.
 # -d dbm file (such as -d gd.uername.md5.db)
 # optional:
-#  -p   -- prints dbm contents
+#  -p  -- prints dbm contents
 #  -c  -- count the number of enteries
 #
 ###
