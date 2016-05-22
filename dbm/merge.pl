@@ -22,10 +22,10 @@ my $dbm_file1 = $opt{1};
 my $dbm_file2 = $opt{2};
 
 
-&DBM::init($dbm_file);
+&DBM::init($dbm_file1, $dbm_file2);
 
 
-&DBM::updateDBHash($opt{k},$opt{v});
+&DBM::merge();
 
 {
 package DBM;
@@ -50,14 +50,20 @@ sub init($$){
 
 
 
-sub merge($$){
+sub merge(){
 
 
-	tie(%dbase1, 'DB_File', $dbm1,O_RDWR|O_CREAT, 0666) or die "can't open $dbm: $!";
-	tie(%dbase2, 'DB_File', $dbm2,O_RDWR|O_CREAT, 0666) or die "can't open $dbm: $!";
+	tie(%dbase1, 'DB_File', $dbm1,O_RDWR|O_CREAT, 0666) or die "can't open $dbm1: $!";
+	tie(%dbase2, 'DB_File', $dbm2,O_RDWR|O_CREAT, 0666) or die "can't open $dbm2: $!";
 
-	$dbase{$key} = $value;
-	print "$key: $dbase{$key}\n";
+  	foreach my $key (keys %dbase2) {
+    	if (defined($dbase1{$key})){
+			next;
+    	}else{
+    		$dbase1{$key} = $dbase2{$key};
+    	}
+  	}
+
 
 	untie(%dbase1);
 	untie(%dbase2);
