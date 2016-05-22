@@ -16,7 +16,7 @@ use constant USAGE => " usage: $0 [-1 dbm] [-2 dbm]\n";
 my %opt;
 die (USAGE) unless (getopts ('1:2:',\%opt));
 
-die(USAGE) if $opt{1} eq '' or  $opt{2};
+die(USAGE) if $opt{1} eq '' or  $opt{2} eq '';
 
 my $dbm_file1 = $opt{1};
 my $dbm_file2 = $opt{2};
