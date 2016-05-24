@@ -1,5 +1,5 @@
 ######
-# Output over each loop iteration
+# Loop over each iteration
 #  Parameters
 #  -1 start iteration
 #  -2 end iteration
