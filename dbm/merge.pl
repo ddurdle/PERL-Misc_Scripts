@@ -53,21 +53,29 @@ sub init($$){
 sub merge(){
 
 
-	tie(%dbase1, 'DB_File', $dbm1,O_RDWR|O_CREAT, 0666) or die "can't open $dbm1: $!";
-	tie(%dbase2, 'DB_File', $dbm2,O_RDWR|O_CREAT, 0666) or die "can't open $dbm2: $!";
-
-  	foreach my $key (keys %dbase2) {
-    	if (defined($dbase1{$key})){
-			next;
+	tie(%dbase2, 'DB_File', $dbm2,O_RDWR|O_CREAT, 0666) or die "can't open $dbm1: $!";
+	my %db;
+	foreach my $key (keys %dbase2) {
+		$db{$key} = $dbase2{$key};
+	}
+	untie(%dbase2);	
+	tie(%dbase1, 'DB_File', $dbm1,O_RDWR|O_CREAT, 0666) or die "can't open $dbm2: $!";
+	my $countAdded=0;
+	my $countSkipped=0;
+  	foreach my $key (keys %db) {
+    	if (exists $dbase1{$key}){
+		next;
+		$countSkipped++;
     	}else{
-    		$dbase1{$key} = $dbase2{$key};
+    		$dbase1{$key} = $db{$key};
+		$countAdded++;
+		print STDERR $dbase1{$key}." ". $db{$key}."\n";
     	}
   	}
 
 
 	untie(%dbase1);
-	untie(%dbase2);
-
+	print STDERR "$dbm1 $dbm2 added = $countAdded, skipped = $countSkipped\n";
 }
 
 
