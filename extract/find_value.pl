@@ -54,7 +54,7 @@ while ($URL ne ''){
 
 	if ($URL =~ m%\|%){
 		my $param;
-		($URL, $param) = $URL =~ m%([^\|]+)\|(.*?)%;
+		($URL, $param) = $URL =~ m%^([^\|]+)\|(.*?)%;
 		if ($searchCriteria3 ne '' ){
 			@results = TOOLS_CRAWLER::complexPOST($URL,undef,[],[],[($searchCriteria, $extractStart, $extractEnd),($searchCriteria2, $extractStart2, $extractEnd2),($searchCriteria3, $extractStart3, $extractEnd3)], $param);
 		}elsif ($searchCriteria2 ne '' ){
