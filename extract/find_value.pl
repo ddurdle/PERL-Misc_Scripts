@@ -49,14 +49,29 @@ if ($URL eq ''){
 if  ($opt{'r'} ne ''){
 	TOOLS_CRAWLER::setReferer($opt{'r'});
 }
+
 while ($URL ne ''){
 
-	if ($searchCriteria3 ne '' ){
-		@results = TOOLS_CRAWLER::complexGET($URL,undef,[],[],[($searchCriteria, $extractStart, $extractEnd),($searchCriteria2, $extractStart2, $extractEnd2),($searchCriteria3, $extractStart3, $extractEnd3)]);
-	}elsif ($searchCriteria2 ne '' ){
-		@results = TOOLS_CRAWLER::complexGET($URL,undef,[],[],[($searchCriteria, $extractStart, $extractEnd),($searchCriteria2, $extractStart2, $extractEnd2)]);
+	if ($URL =~ m%\|%){
+		my $param;
+		($URL, $param) = $URL =~ m%([^\|]+)\|(.*?)%;
+		if ($searchCriteria3 ne '' ){
+			@results = TOOLS_CRAWLER::complexPOST($URL,undef,[],[],[($searchCriteria, $extractStart, $extractEnd),($searchCriteria2, $extractStart2, $extractEnd2),($searchCriteria3, $extractStart3, $extractEnd3)], $param);
+		}elsif ($searchCriteria2 ne '' ){
+			@results = TOOLS_CRAWLER::complexPOST($URL,undef,[],[],[($searchCriteria, $extractStart, $extractEnd),($searchCriteria2, $extractStart2, $extractEnd2)], $param);
+		}else{
+			@results = TOOLS_CRAWLER::complexPOST($URL,undef,[],[],[($searchCriteria, $extractStart, $extractEnd)], $param);
+		}
+
 	}else{
-		@results = TOOLS_CRAWLER::complexGET($URL,undef,[],[],[($searchCriteria, $extractStart, $extractEnd)]);
+		if ($searchCriteria3 ne '' ){
+			@results = TOOLS_CRAWLER::complexGET($URL,undef,[],[],[($searchCriteria, $extractStart, $extractEnd),($searchCriteria2, $extractStart2, $extractEnd2),($searchCriteria3, $extractStart3, $extractEnd3)]);
+		}elsif ($searchCriteria2 ne '' ){
+			@results = TOOLS_CRAWLER::complexGET($URL,undef,[],[],[($searchCriteria, $extractStart, $extractEnd),($searchCriteria2, $extractStart2, $extractEnd2)]);
+		}else{
+			@results = TOOLS_CRAWLER::complexGET($URL,undef,[],[],[($searchCriteria, $extractStart, $extractEnd)]);
+		}
+
 	}
 	for (my $i=3; $i <=$#results; $i = $i+2){
 		next if $results[$i] eq $URL;
