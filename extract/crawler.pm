@@ -427,8 +427,7 @@ sub complexWEB($$@@@$){
 
   if($res->is_success or ($res->code >= 300 and $res->code < 400)){
 
-    my $block = $res->decoded_content;
-
+    my $block = $res->decoded_content . "\n";
 
     while (my ($line) = $block =~ m%([^\n]*)\n%){
 
