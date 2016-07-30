@@ -9,7 +9,7 @@
 use Getopt::Std;		# and the getopt module
 
 my %opt;
-die (USAGE) unless (getopts ('u:1:2:3:4:5:6:7:8:9:lh:r:',\%opt));
+die (USAGE) unless (getopts ('u:1:2:3:4:5:6:7:8:9:Q:W:E:lh:r:',\%opt));
 
 my $URL = $opt{'u'};
 my $headers = $opt{'h'};
@@ -23,6 +23,9 @@ my $extractEnd2 = $opt{'6'};#quotemeta $opt{'3'};
 my $searchCriteria3 = quotemeta $opt{'7'};
 my $extractStart3 =  quotemeta  $opt{'8'};#
 my $extractEnd3 = quotemeta $opt{'9'};#quotemeta $opt{'3'};
+my $searchCriteria4 = quotemeta $opt{'Q'};
+my $extractStart4 =  quotemeta  $opt{'W'};#
+my $extractEnd4 = quotemeta $opt{'E'};#quotemeta $opt{'3'};
 
 #my $extractStart = quotemeta $opt{'2'};
 
@@ -55,7 +58,9 @@ while ($URL ne ''){
 	if ($URL =~ m%\|%){
 		my $param;
 		($URL, $param) = $URL =~ m%^([^\|]+)\|([^\|]+)$%;
-		if ($searchCriteria3 ne '' ){
+		if ($searchCriteria4 ne '' ){
+			@results = TOOLS_CRAWLER::complexPOST($URL,undef,[],[],[($searchCriteria, $extractStart, $extractEnd),($searchCriteria2, $extractStart2, $extractEnd2),($searchCriteria3, $extractStart3, $extractEnd3), ($searchCriteria4, $extractStart4, $extractEnd4)], $param);
+		}elsif ($searchCriteria3 ne '' ){
 			@results = TOOLS_CRAWLER::complexPOST($URL,undef,[],[],[($searchCriteria, $extractStart, $extractEnd),($searchCriteria2, $extractStart2, $extractEnd2),($searchCriteria3, $extractStart3, $extractEnd3)], $param);
 		}elsif ($searchCriteria2 ne '' ){
 			@results = TOOLS_CRAWLER::complexPOST($URL,undef,[],[],[($searchCriteria, $extractStart, $extractEnd),($searchCriteria2, $extractStart2, $extractEnd2)], $param);
@@ -65,6 +70,8 @@ while ($URL ne ''){
 
 	}else{
 		if ($searchCriteria3 ne '' ){
+			@results = TOOLS_CRAWLER::complexGET($URL,undef,[],[],[($searchCriteria, $extractStart, $extractEnd),($searchCriteria2, $extractStart2, $extractEnd2),($searchCriteria3, $extractStart3, $extractEnd3),($searchCriteria4, $extractStart4, $extractEnd4)]);
+		}elsif ($searchCriteria3 ne '' ){
 			@results = TOOLS_CRAWLER::complexGET($URL,undef,[],[],[($searchCriteria, $extractStart, $extractEnd),($searchCriteria2, $extractStart2, $extractEnd2),($searchCriteria3, $extractStart3, $extractEnd3)]);
 		}elsif ($searchCriteria2 ne '' ){
 			@results = TOOLS_CRAWLER::complexGET($URL,undef,[],[],[($searchCriteria, $extractStart, $extractEnd),($searchCriteria2, $extractStart2, $extractEnd2)]);
