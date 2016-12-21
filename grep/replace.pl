@@ -1,5 +1,6 @@
 ######
 # String replacement
+#
 #  Parameters
 #  -g string to look for
 #  -r replacement string
