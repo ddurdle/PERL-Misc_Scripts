@@ -1,5 +1,6 @@
 ######
 # Transform a string if criteria matches, otherwise echo value back
+#
 #  Parameters
 #  -c string to look for
 #  -r additional start of  string
