@@ -52,6 +52,7 @@ while(my $line = <LIST>){
 		$commandA =~ s/\%$entry\%/$entryA[$entry-1]/g;
 	}
 	print $commandA . "\n";
+	system "$commandA";
 
 }
 close(LIST);
