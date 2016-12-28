@@ -32,18 +32,18 @@ if ($splitsize > 0){
 
 if ($size > $splitsize){
 	if ($doCompression){
-		system "tar cvzf - $directory/ | split --bytes=$splitsize - $directory.tgz. ";
+		system "tar cvzf - \"$directory/\" | split --bytes=$splitsize - \"$directory.tgz.\" ";
 
 	}else{
-		system "tar cvf - $directory/ | split --bytes=$splitsize - $directory.tar. ";
+		system "tar cvf - \"$directory/\" | split --bytes=$splitsize - \"$directory.tar.\" ";
 	}
 
 }else{
 	if ($doCompression){
-		system "tar cvzf $directory.tgz $directory";
+		system "tar cvzf \"$directory.tgz\" \"$directory\"";
 
 	}else{
-		system "tar cvf $directory.tar $directory";
+		system "tar cvf \"$directory.tar\" \"$directory\"";
 	}
 
 
