@@ -33,7 +33,7 @@ if ($size > $splitsize){
 		system "tar cvzf - \"$directory/\" | split --bytes=$splitsize - \"$directory.tgz.\" ";
 
 	}else{
-		print "tar cvf - \"$directory/\" | split --bytes=$splitsize - \"${directory}.tar.\" ";
+		system "tar cvf - \"$directory/\" | split --bytes=$splitsize - \"${directory}.tar.\" ";
 	}
 
 }else{
