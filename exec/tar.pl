@@ -23,10 +23,8 @@ if ($opt{'c'}){
 my $size = 0;
 
 if ($splitsize > 0){
-	for my $filename (glob("$directory/*")) {
-	    next unless -f $filename;
-	    $size += -s _;
-	}
+	use File::Find;
+	find( sub { $size += -f $_ ? -s _ : 0 }, shift(@ARGV) );
 
 }
 
