@@ -24,7 +24,7 @@ my $size = 0;
 
 if ($splitsize > 0){
 	use File::Find;
-	find( sub { $size += -f $_ ? -s _ : 0 }, shift(@ARGV) );
+	find( sub { $size += -f $_ ? -s _ : 0 }, $directory );
 
 }
 
