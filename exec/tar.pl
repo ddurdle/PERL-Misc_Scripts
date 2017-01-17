@@ -9,15 +9,21 @@
 use Getopt::Std;		# and the getopt module
 
 my %opt;
-die (USAGE) unless (getopts ('d:s:c',\%opt));
+die (USAGE) unless (getopts ('f:d:s:c',\%opt));
 
 my $directory = $opt{'d'};
+my $filename = $opt{'f'};
+
 my $splitsize = $opt{'s'};
 my $doCompression;
 if ($opt{'c'}){
 	$doCompression = 1;
 }
 
+if ($filename eq ''){
+	$filename = $directory;
+
+}
 
 
 my $size = 0;
@@ -30,18 +36,18 @@ if ($splitsize > 0){
 
 if ($size > $splitsize){
 	if ($doCompression){
-		system "tar cvzf - \"$directory/\" | split --bytes=$splitsize - \"$directory.tgz.\" ";
+		system "tar cvzf - \"$directory/\" | split --bytes=$splitsize - \"$filename.tgz.\" ";
 
 	}else{
-		system "tar cvf - \"$directory/\" | split --bytes=$splitsize - \"${directory}.tar.\" ";
+		system "tar cvf - \"$directory/\" | split --bytes=$splitsize - \"${$filename}.tar.\" ";
 	}
 
 }else{
 	if ($doCompression){
-		system "tar cvzf \"$directory.tgz\" \"$directory\"";
+		system "tar cvzf \"$filename.tgz\" \"$directory\"";
 
 	}else{
-		system "tar cvf \"$directory.tar\" \"$directory\"";
+		system "tar cvf \"$filename.tar\" \"$directory\"";
 	}
 
 
