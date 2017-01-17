@@ -34,20 +34,26 @@ if ($splitsize > 0){
 
 }
 
+#contains space
+if ($directory =~ m%\s%){
+	$directory = '"' . $directory . '"';
+
+}
+
 if ($size > $splitsize){
 	if ($doCompression){
-		system "tar cvzf - \"$directory/\" | split --bytes=$splitsize - \"$filename.tgz.\" ";
+		system "tar cvzf - $directory/ | split --bytes=$splitsize - \"$filename.tgz.\" ";
 
 	}else{
-		system "tar cvf - \"$directory/\" | split --bytes=$splitsize - \"${$filename}.tar.\" ";
+		system "tar cvf - $directory/ | split --bytes=$splitsize - \"${$filename}.tar.\" ";
 	}
 
 }else{
 	if ($doCompression){
-		system "tar cvzf \"$filename.tgz\" \"$directory\"";
+		system "tar cvzf \"$filename.tgz\" $directory";
 
 	}else{
-		system "tar cvf \"$filename.tar\" \"$directory\"";
+		system "tar cvf \"$filename.tar\" $directory";
 	}
 
 
