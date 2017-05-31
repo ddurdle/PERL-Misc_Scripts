@@ -25,7 +25,7 @@ if ($file ne ''){
 while(my $line = <LIST>){
 	$line =~ s%\n%%;
 	#$output = `$commandStart$line$commandEnd`;
-	system "$commandStart$line$commandEnd";
-	#print STDOUT $output . "\perl n";
+	$status = system "$commandStart$line$commandEnd";
+	#print STDOUT 'status ' . $status . "\perl n";
 }
 close(LIST);
