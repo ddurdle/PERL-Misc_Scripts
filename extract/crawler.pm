@@ -70,7 +70,7 @@ my $cookie_jar = HTTP::Cookies->new();
 $ua->cookie_jar($cookie_jar);
 $ua->default_headers->push_header('Accept' => "image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/x-shockwave-flash, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, */*");
 $ua->default_headers->push_header('Accept-Language' => "en-us");
-$ua->timeout(10);
+$ua->timeout(30);
 my $ignoreCookies;
 
 
