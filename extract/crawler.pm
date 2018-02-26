@@ -431,7 +431,15 @@ sub complexWEB($$@@@$){
 
     while (my ($line) = $block =~ m%([^\n]*)\n%){
 
-      $block =~ s%[^\n]*\n%%;
+	  if (CONFIG->REMOVE_NEWLINE){
+	      $block =~ s%\n%%g;
+
+		  $line = $block;
+		  $block = '';
+	  }else{
+	  	$block =~ s%[^\n]*\n%%;
+	  }
+
 
       if ($line =~ m%Location\: %){
         my ($address) = $line =~ m%Location\: ([^\s]+)$%;
