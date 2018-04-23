@@ -20,7 +20,7 @@ foreach my $current (0 .. $#ARGV) {
 }
 my $now = -1;
 while ($now < 0){
-	print STDERR "run " + '/u01/ffmpeg-git-20171123-64bit-static/ffmpeg ' + $arglist + "\n";
+	print STDERR 'run /u01/ffmpeg-git-20171123-64bit-static/ffmpeg ' . $arglist . "\n";
 	`/u01/ffmpeg-git-20171123-64bit-static/ffmpeg $arglist`;
 	$now = time - $start - $duration + 5;
 	my $hour = int($duration /60/60);
@@ -31,7 +31,9 @@ while ($now < 0){
 	$count++;
 	$arglist = '';
 	foreach my $current (0 .. $#ARGV) {
-	   $arglist .= ' ' .$ARGV[$current];
+		if ($ARGV[$current] =~ m%\s%){
+	   	$arglist .= ' "' .$ARGV[$current] . '"';
+		}else{$arglist .= ' ' .$ARGV[$current];}
 	}
 	print STDERR "time " .$now;
 }
