@@ -23,7 +23,10 @@ if ($duration_ptr == -1){
 
 }else{
 	$ARGV[$filename_ptr] =~ s%\.ts%\.$count\.mp4%;
-	$count++;
+	while (-e $ARGV[$filename_ptr]){
+		$count++;
+		$ARGV[$filename_ptr] =~ s%\.\d+\.mp4%\.$count\.mp4%;
+	}
 	my $now = -1;
 	while ($now < 0){
 		print STDERR 'run /u01/ffmpeg-git-20171123-64bit-static/ffmpeg ' . $arglist . "\n";
@@ -34,7 +37,10 @@ if ($duration_ptr == -1){
 		my $sec = int ($duration %60);
 		$ARGV[$duration_ptr] = ($hour<10? '0':'').$hour.":".($min <10? '0':'').$min.':' . ($sec<10?'0':'').$sec;
 		$ARGV[$filename_ptr] =~ s%\.\d+\.mp4%\.$count\.mp4%;
-		$count++;
+		while (-e $ARGV[$filename_ptr]){
+			$count++;
+			$ARGV[$filename_ptr] =~ s%\.\d+\.mp4%\.$count\.mp4%;
+		}
 		$arglist = '';
 		foreach my $current (0 .. $#ARGV) {
 			if ($ARGV[$current] =~ m%\s%){
