@@ -44,7 +44,7 @@ if ($duration_ptr == -1){
 		$ARGV[$filename_ptr] =~ s%\.\d+\.ts%\.$count\.ts%;
 	}
 	my $now = 1;
-	while ($now > 0){
+	while ($now > 59){
 		print STDERR 'run /u01/ffmpeg-git-20171123-64bit-static/ffmpeg ' . $arglist . "\n";
 		`/u01/ffmpeg-git-20171123-64bit-static/ffmpeg $arglist -v error`;
 		$now = ($start + $duration + 5) - time ;
