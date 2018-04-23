@@ -14,7 +14,9 @@ foreach my $current (0 .. $#ARGV) {
 	}elsif ($ARGV[$current] =~ m%\.ts%){
 		$filename_ptr = $current;
 	}
-   $arglist .= ' ' .$ARGV[$current];
+	if ($ARGV[$current] =~ m%\s%){
+   	$arglist .= ' "' .$ARGV[$current] . '"';
+	}else{$arglist .= ' ' .$ARGV[$current];}
 }
 
 #run only once?
