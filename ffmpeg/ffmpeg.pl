@@ -42,15 +42,15 @@ if ($duration_ptr == -1){
 		$count++;
 		$ARGV[$filename_ptr] =~ s%\.\d+\.ts%\.$count\.ts%;
 	}
-	my $now = -1;
-	while ($now < 0){
+	my $now = 1;
+	while ($now > 0){
 		print STDERR 'run /u01/ffmpeg-git-20171123-64bit-static/ffmpeg ' . $arglist . "\n";
 		`/u01/ffmpeg-git-20171123-64bit-static/ffmpeg $arglist -v error`;
-		$now = time - $start - $duration - 5;
+		$now = ($start + $duration + 5) - time ;
 
-		my $hour = int($now /60/60)*-1;
-	    my $min = int ($now /60%60)*-1;
-		my $sec = int ($now %60)*-1;
+		my $hour = int($now /60/60);
+	    my $min = int ($now /60%60);
+		my $sec = int ($now %60);
 		$ARGV[$duration_ptr] = ($hour<10? '0':'').$hour.":".($min <10? '0':'').$min.':' . ($sec<10?'0':'').$sec;
 		$ARGV[$filename_ptr] =~ s%\.\d+\.ts%\.$count\.ts%;
 		while (-e $ARGV[$filename_ptr]){
