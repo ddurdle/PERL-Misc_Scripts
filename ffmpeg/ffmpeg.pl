@@ -29,6 +29,7 @@ if ($duration_ptr == -1){
 		if($output ne ''){
 			print STDERR "ERROR";
 			print STDERR $output;
+			print STDERR 'run /u01/ffmpeg-git-20171123-64bit-static/ffmpeg ' . $arglist . "\n";
 			sleep 1;
 			$retry++;
 		}else{
