@@ -43,10 +43,13 @@ if ($duration_ptr == -1){
 		$count++;
 		$ARGV[$filename_ptr] =~ s%\.\d+\.ts%\.$count\.ts%;
 	}
+	$renameFileName = $ARGV[$filename_ptr];
+	$renameFileName =~ s%\.ts%\.mp4%;
+
 	my $now = 60;
 	while ($now > 59){
 		print STDERR 'run /u01/ffmpeg-git-20171123-64bit-static/ffmpeg ' . $arglist . "\n";
-		`/u01/ffmpeg-git-20171123-64bit-static/ffmpeg $arglist -v error`;
+		`/u01/ffmpeg-git-20171123-64bit-static/ffmpeg $arglist -v error; mv "$ARGV[$filename_ptr]" "$renameFileName"`;
 		$now = ($start + $duration + 5) - time ;
 
 		my $hour = int($now /60/60);
