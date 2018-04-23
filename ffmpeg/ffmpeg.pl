@@ -1,4 +1,7 @@
 #!/usr/bin/perl
+
+use File::Copy qw(move);
+
 use constant RETRY => 10;
 my $start = time;
 my $duration = 0;
@@ -49,7 +52,8 @@ if ($duration_ptr == -1){
 	my $now = 60;
 	while ($now > 59){
 		print STDERR 'run /u01/ffmpeg-git-20171123-64bit-static/ffmpeg ' . $arglist . "\n";
-		`/u01/ffmpeg-git-20171123-64bit-static/ffmpeg $arglist -v error; mv "$ARGV[$filename_ptr]" "$renameFileName"`;
+		`/u01/ffmpeg-git-20171123-64bit-static/ffmpeg $arglist -v error`;
+		move $ARGV[$filename_ptr], $renameFileName;
 		$now = ($start + $duration + 5) - time ;
 
 		my $hour = int($now /60/60);
