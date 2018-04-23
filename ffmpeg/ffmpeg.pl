@@ -29,6 +29,7 @@ while ($now < 0){
 	$ARGV[$duration_ptr] = ($hour<10? '0':'').$hour.":".($min <10? '0':'').$min.':' . ($sec<10?'0':'').$sec;
 	$ARGV[$filename_ptr] =~ s%\.\d+\.mp4%\.$count\.mp4%;
 	$count++;
+	$arglist = '';
 	foreach my $current (0 .. $#ARGV) {
 	   $arglist .= ' ' .$ARGV[$current];
 	}
