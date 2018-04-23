@@ -4,14 +4,16 @@ my $duration = 0;
 my $duration_ptr = 0;
 my $arglist = '';
 my $filename_ptr = 0;
+my $count = 1;
 foreach my $current (0 .. $#ARGV) {
 	# fetch how long to encode
 	if ($ARGV[$current] =~ m%\d\d:\d\d:\d\d%){
 		my ($hour,$min,$sec) = $ARGV[$current] =~ m%0?(\d+):0?(\d+):0?(\d+)%;
 		$duration = $hour*60*60 + $min*60 + $sec;
 		$duration_ptr = $current;
-		$duration_replacement = $ARGV[$current];
 	}elsif ($ARGV[$current] =~ m%\.ts%){
+		$ARGV[$current] =~ s%\.ts%\.$count\.mp4%;
+		$count++;
 		$filename_ptr = $current;
 	}
    $arglist .= ' ' .$ARGV[$current];
@@ -24,5 +26,10 @@ while ($now < 0){
     my $min = int ($duration /60%60);
 	my $sec = int ($duration %60);
 	$ARGV[$duration_ptr] = ($hour<10? '0':'').$hour.":".($min <10? '0':'').$min.':' . ($sec<10?'0':'').$sec;
+	$ARGV[$filename_ptr] =~ s%\.\d+\.mp4%\.$count\.mp4%;
+	$count++;
+	foreach my $current (0 .. $#ARGV) {
+	   $arglist .= ' ' .$ARGV[$current];
+	}
 	print STDERR "time " .$now;
 }
