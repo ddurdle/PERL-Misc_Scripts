@@ -1,4 +1,5 @@
 #!/usr/bin/perl
+use constant RETRY => 10;
 my $start = time;
 my $duration = 0;
 my $duration_ptr = -1;
@@ -19,29 +20,41 @@ foreach my $current (0 .. $#ARGV) {
 	}else{$arglist .= ' ' .$ARGV[$current];}
 }
 
-#run only once?
+#run only once? -- enable retry
 if ($duration_ptr == -1){
-	`/u01/ffmpeg-git-20171123-64bit-static/ffmpeg $arglist`;
+	my $retry=1;
+	while ($retry< RETRY and $retry > 0){
 
+		my $output = `/u01/ffmpeg-git-20171123-64bit-static/ffmpeg $arglist -v error 2>&1`;
+		if($output ne ''){
+			print STDERR "ERROR";
+			print STDERR $output;
+			sleep 1;
+			$retry++;
+		}else{
+			$retry = 0;
+		}
+	}
+#running wit duration? -- keep retrying and adjusting duration
 }else{
-	$ARGV[$filename_ptr] =~ s%\.ts%\.$count\.mp4%;
+	$ARGV[$filename_ptr] =~ s%\.ts%\.$count\.ts%;
 	while (-e $ARGV[$filename_ptr]){
 		$count++;
-		$ARGV[$filename_ptr] =~ s%\.\d+\.mp4%\.$count\.mp4%;
+		$ARGV[$filename_ptr] =~ s%\.\d+\.ts%\.$count\.ts%;
 	}
 	my $now = -1;
 	while ($now < 0){
 		print STDERR 'run /u01/ffmpeg-git-20171123-64bit-static/ffmpeg ' . $arglist . "\n";
-		`/u01/ffmpeg-git-20171123-64bit-static/ffmpeg $arglist`;
+		`/u01/ffmpeg-git-20171123-64bit-static/ffmpeg $arglist -v error`;
 		$now = time - $start - $duration + 5;
 		my $hour = int($duration /60/60);
 	    my $min = int ($duration /60%60);
 		my $sec = int ($duration %60);
 		$ARGV[$duration_ptr] = ($hour<10? '0':'').$hour.":".($min <10? '0':'').$min.':' . ($sec<10?'0':'').$sec;
-		$ARGV[$filename_ptr] =~ s%\.\d+\.mp4%\.$count\.mp4%;
+		$ARGV[$filename_ptr] =~ s%\.\d+\.ts%\.$count\.ts%;
 		while (-e $ARGV[$filename_ptr]){
 			$count++;
-			$ARGV[$filename_ptr] =~ s%\.\d+\.mp4%\.$count\.mp4%;
+			$ARGV[$filename_ptr] =~ s%\.\d+\.ts%\.$count\.ts%;
 		}
 		$arglist = '';
 		foreach my $current (0 .. $#ARGV) {
