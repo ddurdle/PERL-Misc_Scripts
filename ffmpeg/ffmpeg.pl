@@ -3,6 +3,19 @@
 use File::Copy qw(move);
 
 use constant RETRY => 10;
+
+
+sub createArglist(){
+	my $arglist = '';
+	foreach my $current (0 .. $#ARGV) {
+		if ($ARGV[$current] =~ m%\s%){
+	   	$arglist .= ' "' .$ARGV[$current] . '"';
+		}else{$arglist .= ' ' .$ARGV[$current];}
+	}
+	return $arglist;
+
+}
+
 my $start = time;
 my $duration = 0;
 my $duration_ptr = -1;
@@ -54,6 +67,7 @@ if ($duration_ptr == -1){
 
 	my $now = 60;
 	while ($now > 59){
+	  	$arglist = createArglist();
 		print STDERR 'run /u01/ffmpeg-git-20171123-64bit-static/ffmpeg ' . $arglist . "\n";
 		`/u01/ffmpeg-git-20171123-64bit-static/ffmpeg $arglist -v error`;
 		move $ARGV[$filename_ptr], $renameFileName;
@@ -71,12 +85,8 @@ if ($duration_ptr == -1){
 			$renameFileName = $ARGV[$filename_ptr];
 			$renameFileName =~ s%\.ts%\.mp4%;
 		}
-		$arglist = '';
-		foreach my $current (0 .. $#ARGV) {
-			if ($ARGV[$current] =~ m%\s%){
-		   	$arglist .= ' "' .$ARGV[$current] . '"';
-			}else{$arglist .= ' ' .$ARGV[$current];}
-		}
 		print STDERR "time " .$now;
 	}
 }
+
+
