@@ -18,6 +18,8 @@ foreach my $current (0 .. $#ARGV) {
 		$duration_ptr = $current;
 	}elsif ($ARGV[$current] =~ m%\.ts%){
 		$filename_ptr = $current;
+		#$ARGV[$filename_ptr] =~ s%\.\d+\.ts%\.$count\.ts%;
+
 	}
 	if ($ARGV[$current] =~ m%\s%){
    	$arglist .= ' "' .$ARGV[$current] . '"';
@@ -66,6 +68,8 @@ if ($duration_ptr == -1){
 		while (-e $ARGV[$filename_ptr]){
 			$count++;
 			$ARGV[$filename_ptr] =~ s%\.\d+\.ts%\.$count\.ts%;
+			$renameFileName = $ARGV[$filename_ptr];
+			$renameFileName =~ s%\.ts%\.mp4%;
 		}
 		$arglist = '';
 		foreach my $current (0 .. $#ARGV) {
