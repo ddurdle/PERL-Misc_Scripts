@@ -3,6 +3,9 @@
 use File::Copy qw(move);
 
 use constant RETRY => 10;
+my $pidi=0;
+
+$SIG{QUIT} = sub {  kill 'KILL', $pid;die "Caught a sigint $pid $!"; };
 
 
 sub createArglist(){
@@ -43,8 +46,10 @@ foreach my $current (0 .. $#ARGV) {
 if ($duration_ptr == -1){
 	my $retry=1;
 	while ($retry< RETRY and $retry > 0){
-
-		my $output = `/u01/ffmpeg-git-20171123-64bit-static/ffmpeg $arglist -v error 2>&1`;
+		my $output = 'x';
+		$pid = open LS, '/u01/ffmpeg-git-20171123-64bit-static/ffmpeg $arglist -v error 2>&1' or die$!;
+		close LS;
+		#my $output = `/u01/ffmpeg-git-20171123-64bit-static/ffmpeg $arglist -v error 2>&1`;
 		if($output ne ''){
 			print STDERR "ERROR";
 			print STDERR $output;
