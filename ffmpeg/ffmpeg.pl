@@ -47,7 +47,7 @@ if ($duration_ptr == -1){
 	my $retry=1;
 	while ($retry< RETRY and $retry > 0){
 		my $output = 'x';
-		$pid = open LS, '/u01/ffmpeg-git-20171123-64bit-static/ffmpeg $arglist -v error 2>&1' or die$!;
+		$pid = open LS, '/u01/ffmpeg-git-20171123-64bit-static/ffmpeg $arglist -v error 2>&1 |' or die$!;
 		close LS;
 		#my $output = `/u01/ffmpeg-git-20171123-64bit-static/ffmpeg $arglist -v error 2>&1`;
 		if($output ne ''){
