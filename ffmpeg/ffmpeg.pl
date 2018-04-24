@@ -9,6 +9,7 @@ my $duration_ptr = -1;
 my $arglist = '';
 my $filename_ptr = 0;
 my $count = 1;
+my $renameFileName = '';
 foreach my $current (0 .. $#ARGV) {
 	# fetch how long to encode
 	if ($ARGV[$current] =~ m%\d\d:\d\d:\d\d%){
@@ -54,6 +55,7 @@ if ($duration_ptr == -1){
 		print STDERR 'run /u01/ffmpeg-git-20171123-64bit-static/ffmpeg ' . $arglist . "\n";
 		`/u01/ffmpeg-git-20171123-64bit-static/ffmpeg $arglist -v error`;
 		move $ARGV[$filename_ptr], $renameFileName;
+		print STDERR "move $ARGV[$filename_ptr], $renameFileName\n";
 		$now = ($start + $duration + 5) - time ;
 
 		my $hour = int($now /60/60);
