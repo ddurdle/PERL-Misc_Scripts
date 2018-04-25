@@ -47,15 +47,15 @@ if ($duration_ptr == -1){
 	my $retry=1;
 	while ($retry< RETRY and $retry > 0){
 		#my $result = 'x';
-		$pid = open LS, '/u01/ffmpeg-git-20171123-64bit-static/ffmpeg $arglist -v error |' or die$!;
-		my $output = do{ local $/; <LS> };
-		print "pid = $pid\n";
-		close LS;
-		#my $output = `/u01/ffmpeg-git-20171123-64bit-static/ffmpeg $arglist -v error 2>&1`;
+		#$pid = open LS, '/u01/ffmpeg-git-20171123-64bit-static/ffmpeg $arglist  |' or die$!;
+		#my $output = do{ local $/; <LS> };
+		#print "pid = $pid\n";
+		#close LS;
+		my $output = `/u01/ffmpeg-git-20171123-64bit-static/ffmpeg $arglist -v error 2>&1`;
 		if($output ne ''){
 			print STDERR "ERROR";
 			print STDERR $output;
-			print STDERR 'run /u01/ffmpeg-git-20171123-64bit-static/ffmpeg ' . $arglist . "\n";
+			print STDERR 'retry /u01/ffmpeg-git-20171123-64bit-static/ffmpeg ' . $arglist . "\n";
 			sleep 1;
 			$retry++;
 		}else{
