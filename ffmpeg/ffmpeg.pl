@@ -5,8 +5,9 @@ use File::Copy qw(move);
 use constant RETRY => 10;
 my $pidi=0;
 
-$SIG{QUIT} = sub {  kill 'KILL', $pid;die "Caught a sigint $pid $!"; };
-
+$SIG{QUIT} = sub {  kill 'KILL', $pid;die "Caught a quit $pid $!"; };
+$SIG{TERM} = sub {  kill 'KILL', $pid;die "Caught a term $pid $!"; };
+$SIG{INT} = sub {  kill 'KILL', $pid;die "Caught a int $pid $!"; };
 
 sub createArglist(){
 	my $arglist = '';
