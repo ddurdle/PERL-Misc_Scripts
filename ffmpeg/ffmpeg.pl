@@ -54,6 +54,8 @@ if ($duration_ptr == -1){
 	while ($retry< RETRY and $retry > 0){
 		#my $result = 'x';
 		$pid = open ( LS, '-|', '/u01/ffmpeg-git-20171123-64bit-static/ffmpeg $arglist');
+		print STDERR "$arglist\n";
+		exit(0);
 		my $output = do{ local $/; <LS> };
 		#print "pid = $pid\n";
 		#close LS;
