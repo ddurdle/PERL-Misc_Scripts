@@ -64,6 +64,9 @@ if ($duration_ptr == -1){
 	}
 #running wit duration? -- keep retrying and adjusting duration
 }else{
+
+	my @moveList;
+	my $current=0;
 	$ARGV[$filename_ptr] =~ s%\.ts%\.$count\.ts%;
 	while (-e $ARGV[$filename_ptr]){
 		$count++;
@@ -77,7 +80,9 @@ if ($duration_ptr == -1){
 	  	$arglist = createArglist();
 		print STDERR 'run /u01/ffmpeg-git-20171123-64bit-static/ffmpeg ' . $arglist . "\n";
 		`/u01/ffmpeg-git-20171123-64bit-static/ffmpeg $arglist -v error`;
-		move $ARGV[$filename_ptr], $renameFileName;
+		$moveList[$current][0] = $ARGV[$filename_ptr];
+		$moveList[$current++][1] = $renameFileName;
+		#move $ARGV[$filename_ptr], $renameFileName;
 		print STDERR "move $ARGV[$filename_ptr], $renameFileName\n";
 		$now = ($start + $duration + 5) - time ;
 
@@ -93,6 +98,11 @@ if ($duration_ptr == -1){
 			$renameFileName =~ s%\.ts%\.mp4%;
 		}
 		print STDERR "time " .$now;
+	}
+
+	for (my $i=0; $i <= $#moveList; $i++){
+		move $moveList[$i][0], $moveList[$i][1];
+
 	}
 }
 
