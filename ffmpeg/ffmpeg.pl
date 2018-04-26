@@ -8,6 +8,11 @@ my $pidi=0;
 $SIG{QUIT} = sub {  kill 'KILL', $pid;die "Caught a quit $pid $!"; };
 $SIG{TERM} = sub {  kill 'KILL', $pid;die "Caught a term $pid $!"; };
 $SIG{INT} = sub {  kill 'KILL', $pid;die "Caught a int $pid $!"; };
+$SIG{HUP} = sub {  kill 'KILL', $pid;die "Caught a hup $pid $!"; };
+$SIG{ABRT} = sub {  kill 'KILL', $pid;die "Caught a abrt $pid $!"; };
+$SIG{TRAP} = sub {  kill 'KILL', $pid;die "Caught a trap $pid $!"; };
+$SIG{STOP} = sub {  kill 'KILL', $pid;die "Caught a stop $pid $!"; };
+
 
 sub createArglist(){
 	my $arglist = '';
