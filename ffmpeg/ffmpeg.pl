@@ -51,7 +51,7 @@ foreach my $current (0 .. $#ARGV) {
 }
 
 # SRT loading only, load regular routine
-if ($isSRT){
+if ($isSRT or $arglist =~ m%\-f segment% ){
 	`/opt/emby-server/bin/ffmpeg.x $arglist`;
 # is google drive, so must be wanting to transcode the video -- block
 }elsif ($arglist =~ m%\:9988%){
