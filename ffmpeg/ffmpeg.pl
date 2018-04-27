@@ -50,8 +50,10 @@ foreach my $current (0 .. $#ARGV) {
 	}else{$arglist .= ' ' .$ARGV[$current];}
 }
 
+# SRT loading only, load regular routine
 if ($isSRT){
 	`/opt/emby-server/bin/ffmpeg.x $arglist`;
+
 #run only once? -- enable retry
 }elsif ($duration_ptr == -1){
 	my $retry=1;
@@ -63,7 +65,9 @@ if ($isSRT){
 		#print "pid = $pid\n";
 		close LS;
 		#my $output = `/u01/ffmpeg-git-20171123-64bit-static/ffmpeg $arglist -v error 2>&1`;
-		if($output ne ''){
+
+		#retry if contains error 403
+		if($output =~ m%403%){
 			print STDERR "ERROR";
 			print STDERR $output;
 			print STDERR 'retry /u01/ffmpeg-git-20171123-64bit-static/ffmpeg ' . $arglist . "\n";
