@@ -58,16 +58,16 @@ if ($isSRT){
 	while ($retry< RETRY and $retry > 0){
 		#my $result = 'x';
 		#print "running " . '/u01/ffmpeg-git-20171123-64bit-static/ffmpeg ' + $arglist
-		$pid = open ( LS, '-|', '/u01/ffmpeg-git-20171123-64bit-static/ffmpeg -v error 2>&1' . $arglist);
+		$pid = open ( LS, '-|', '/u01/ffmpeg-git-20171123-64bit-static/ffmpeg  2>&1' . $arglist);
 		my $output = do{ local $/; <LS> };
 		#print "pid = $pid\n";
-		#close LS;
+		close LS;
 		#my $output = `/u01/ffmpeg-git-20171123-64bit-static/ffmpeg $arglist -v error 2>&1`;
 		if($output ne ''){
 			print STDERR "ERROR";
 			print STDERR $output;
 			print STDERR 'retry /u01/ffmpeg-git-20171123-64bit-static/ffmpeg ' . $arglist . "\n";
-			sleep 1;
+			sleep 2;
 			$retry++;
 		}else{
 			$retry = 0;
