@@ -32,6 +32,7 @@ my $arglist = '';
 my $filename_ptr = 0;
 my $count = 1;
 my $renameFileName = '';
+my $isSRT = 0;
 foreach my $current (0 .. $#ARGV) {
 	# fetch how long to encode
 	if ($ARGV[$current] =~ m%\d\d:\d\d:\d\d%){
@@ -41,15 +42,18 @@ foreach my $current (0 .. $#ARGV) {
 	}elsif ($ARGV[$current] =~ m%\.ts%){
 		$filename_ptr = $current;
 		#$ARGV[$filename_ptr] =~ s%\.\d+\.ts%\.$count\.ts%;
-
+	}elsif ($ARGV[$current] =~ m%\.srt%){
+		$isSRT = 1;
 	}
 	if ($ARGV[$current] =~ m%\s%){
    	$arglist .= ' "' .$ARGV[$current] . '"';
 	}else{$arglist .= ' ' .$ARGV[$current];}
 }
 
+if ($isSRT){
+	`/opt/emby-server/bin/ffmpeg.x $arglist`;
 #run only once? -- enable retry
-if ($duration_ptr == -1){
+}elsif ($duration_ptr == -1){
 	my $retry=1;
 	while ($retry< RETRY and $retry > 0){
 		#my $result = 'x';
