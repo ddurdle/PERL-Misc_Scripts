@@ -54,7 +54,7 @@ if ($duration_ptr == -1){
 	while ($retry< RETRY and $retry > 0){
 		#my $result = 'x';
 		#print "running " . '/u01/ffmpeg-git-20171123-64bit-static/ffmpeg ' + $arglist
-		$pid = open ( LS, '-|', '/u01/ffmpeg-git-20171123-64bit-static/ffmpeg ' . $arglist);
+		$pid = open ( LS, '-|', '/u01/ffmpeg-git-20171123-64bit-static/ffmpeg -v error 2>&1' . $arglist);
 		my $output = do{ local $/; <LS> };
 		#print "pid = $pid\n";
 		#close LS;
@@ -83,7 +83,8 @@ if ($duration_ptr == -1){
 	$renameFileName =~ s%\.ts%\.mp4%;
 
 	my $now = 60;
-	while ($now > 59){
+	my $failures=0;
+	while ($now > 59 and $failures < 100){
 	  	$arglist = createArglist();
 		print STDERR 'run /u01/ffmpeg-git-20171123-64bit-static/ffmpeg ' . $arglist . "\n";
 		`/u01/ffmpeg-git-20171123-64bit-static/ffmpeg $arglist -v error`;
@@ -92,7 +93,10 @@ if ($duration_ptr == -1){
 		#move $ARGV[$filename_ptr], $renameFileName;
 		print STDERR "move $ARGV[$filename_ptr], $renameFileName\n";
 		$now = ($start + $duration + 5) - time ;
-
+		if ($now > 59){
+			sleep 5;
+			$failures++;
+		}
 		my $hour = int($now /60/60);
 	    my $min = int ($now /60%60);
 		my $sec = int ($now %60);
@@ -105,6 +109,7 @@ if ($duration_ptr == -1){
 			$renameFileName =~ s%\.ts%\.mp4%;
 		}
 		print STDERR "time " .$now;
+
 	}
 
 	for (my $i=0; $i <= $#moveList; $i++){
