@@ -99,11 +99,11 @@ if ($isSRT or $arglist =~ m%\-f segment% ){
 	while ($now > 59 and $failures < 100){
 	  	$arglist = createArglist();
 		print STDERR 'run /u01/ffmpeg-git-20171123-64bit-static/ffmpeg  -v error ' . $arglist . "\n";
-		#`/u01/ffmpeg-git-20171123-64bit-static/ffmpeg $arglist -v error `;
-		$pid = open ( LS, '-|', '/u01/ffmpeg-git-20171123-64bit-static/ffmpeg  -v error ' . $arglist . ' 2>&1');
-		my $output = do{ local $/; <LS> };
-		close LS;
-		print STDERR $output;
+		`/u01/ffmpeg-git-20171123-64bit-static/ffmpeg $arglist -v error`;
+		#$pid = open ( LS, '-|', '/u01/ffmpeg-git-20171123-64bit-static/ffmpeg  -v error ' . $arglist . ' 2>&1');
+		#my $output = do{ local $/; <LS> };
+		#close LS;
+		#print STDERR $output;
 
 		# we will rename the file later
 		$moveList[$current][0] = $ARGV[$filename_ptr];
