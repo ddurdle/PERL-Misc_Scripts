@@ -63,9 +63,8 @@ if ($isSRT or $arglist =~ m%\-f segment% ){
 	while ($retry< RETRY and $retry > 0){
 		#my $result = 'x';
 		#print "running " . '/u01/ffmpeg-git-20171123-64bit-static/ffmpeg ' + $arglist
-		$pid = open ( LS, '-|', '/u01/ffmpeg-git-20171123-64bit-static/ffmpeg  2>&1' . $arglist);
+		$pid = open ( LS, '-|', '/u01/ffmpeg-git-20171123-64bit-static/ffmpeg ' . $arglist . ' 2>&1');
 		my $output = do{ local $/; <LS> };
-		#print "pid = $pid\n";
 		close LS;
 		#my $output = `/u01/ffmpeg-git-20171123-64bit-static/ffmpeg $arglist -v error 2>&1`;
 
@@ -77,6 +76,8 @@ if ($isSRT or $arglist =~ m%\-f segment% ){
 			sleep 2;
 			$retry++;
 		}else{
+			print STDERR "DONE";
+			print STDERR $output;
 			$retry = 0;
 		}
 	}
@@ -98,20 +99,30 @@ if ($isSRT or $arglist =~ m%\-f segment% ){
 	while ($now > 59 and $failures < 100){
 	  	$arglist = createArglist();
 		print STDERR 'run /u01/ffmpeg-git-20171123-64bit-static/ffmpeg ' . $arglist . "\n";
-		`/u01/ffmpeg-git-20171123-64bit-static/ffmpeg $arglist -v error`;
+		`/u01/ffmpeg-git-20171123-64bit-static/ffmpeg $arglist -v error `;
+		$pid = open ( LS, '-|', '/u01/ffmpeg-git-20171123-64bit-static/ffmpeg ' . $arglist . ' 2>&1');
+		my $output = do{ local $/; <LS> };
+		close LS;
+		print STDERR $output;
+
+		# we will rename the file later
 		$moveList[$current][0] = $ARGV[$filename_ptr];
 		$moveList[$current++][1] = $renameFileName;
-		#move $ARGV[$filename_ptr], $renameFileName;
-		print STDERR "move $ARGV[$filename_ptr], $renameFileName\n";
+
+		# calculate the new duration -- add a failure to the counter and wait for 5 seconds to let the failure condition pass
 		$now = ($start + $duration + 5) - time ;
 		if ($now > 59){
 			sleep 5;
 			$failures++;
 		}
+
+		# print the duration in correct format
 		my $hour = int($now /60/60);
 	    my $min = int ($now /60%60);
 		my $sec = int ($now %60);
 		$ARGV[$duration_ptr] = ($hour<10? '0':'').$hour.":".($min <10? '0':'').$min.':' . ($sec<10?'0':'').$sec;
+
+		# increment filename
 		$ARGV[$filename_ptr] =~ s%\.\d+\.ts%\.$count\.ts%;
 		while (-e $ARGV[$filename_ptr]){
 			$count++;
@@ -119,12 +130,13 @@ if ($isSRT or $arglist =~ m%\-f segment% ){
 			$renameFileName = $ARGV[$filename_ptr];
 			$renameFileName =~ s%\.ts%\.mp4%;
 		}
-		print STDERR "time " .$now;
+		print STDERR "next iteration " .$now . "\n";
 
 	}
 
 	for (my $i=0; $i <= $#moveList; $i++){
 		move $moveList[$i][0], $moveList[$i][1];
+		print STDERR "move $moveList[$i][0],$moveList[$i][1]\n";
 
 	}
 }
