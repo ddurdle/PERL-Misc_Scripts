@@ -82,7 +82,7 @@ if ($isSRT or $arglist =~ m%\-f segment% ){
 		}
 	}
 #running wit duration? -- keep retrying and adjusting duration
-}else{
+}elsif ($duration != 0){
 
 	my @moveList;
 	my $current=0;
