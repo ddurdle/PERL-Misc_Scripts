@@ -13,12 +13,13 @@ $SIG{ABRT} = sub {  kill 'KILL', $pid;die "Caught a abrt $pid $!"; };
 $SIG{TRAP} = sub {  kill 'KILL', $pid;die "Caught a trap $pid $!"; };
 $SIG{STOP} = sub {  kill 'KILL', $pid;die "Caught a stop $pid $!"; };
 
+my $FFMPEG = '/opt/emby-server/bin/ffmpeg';
 
 sub createArglist(){
 	my $arglist = '';
 	foreach my $current (0 .. $#ARGV) {
-		if ($ARGV[$current] =~ m%\s%){
-	   	$arglist .= ' "' .$ARGV[$current] . '"';
+		if ($ARGV[$current] =~ m%\s% or $ARGV[$current] =~ m%\(% or $ARGV[$current] =~ m%\)%){
+	   		$arglist .= ' "' .$ARGV[$current] . '"';
 		}else{$arglist .= ' ' .$ARGV[$current];}
 	}
 	return $arglist;
@@ -45,14 +46,13 @@ foreach my $current (0 .. $#ARGV) {
 	}elsif ($ARGV[$current] =~ m%\.srt%){
 		$isSRT = 1;
 	}
-	if ($ARGV[$current] =~ m%\s%){
-   	$arglist .= ' "' .$ARGV[$current] . '"';
-	}else{$arglist .= ' ' .$ARGV[$current];}
 }
+$arglist = createArglist();
+
 
 # SRT loading only, load regular routine
 if ($isSRT or $arglist =~ m%\-f segment% ){
-	`/opt/emby-server/bin/ffmpeg.x $arglist`;
+	`$FFMPEG $arglist`;
 # is google drive, so must be wanting to transcode the video -- block
 }elsif ($arglist =~ m%\:9988%){
 
@@ -63,7 +63,7 @@ if ($isSRT or $arglist =~ m%\-f segment% ){
 	while ($retry< RETRY and $retry > 0){
 		#my $result = 'x';
 		#print "running " . '/u01/ffmpeg-git-20171123-64bit-static/ffmpeg ' + $arglist
-		$pid = open ( LS, '-|', '/u01/ffmpeg-git-20171123-64bit-static/ffmpeg ' . $arglist . ' 2>&1');
+		$pid = open ( LS, '-|', '$FFMPEG ' . $arglist . ' 2>&1');
 		my $output = do{ local $/; <LS> };
 		close LS;
 		#my $output = `/u01/ffmpeg-git-20171123-64bit-static/ffmpeg $arglist -v error 2>&1`;
@@ -72,7 +72,7 @@ if ($isSRT or $arglist =~ m%\-f segment% ){
 		if($output =~ m%403%){
 			print STDERR "ERROR";
 			print STDERR $output;
-			print STDERR 'retry /u01/ffmpeg-git-20171123-64bit-static/ffmpeg ' . $arglist . "\n";
+			print STDERR 'retry ffmpeg ' . $arglist . "\n";
 			sleep 2;
 			$retry++;
 		}else{
@@ -98,8 +98,8 @@ if ($isSRT or $arglist =~ m%\-f segment% ){
 	my $failures=0;
 	while ($now > 59 and $failures < 100){
 	  	$arglist = createArglist();
-		print STDERR 'run /u01/ffmpeg-git-20171123-64bit-static/ffmpeg  -v error ' . $arglist . "\n";
-		`/u01/ffmpeg-git-20171123-64bit-static/ffmpeg $arglist -v error`;
+		print STDERR 'run ffmpeg  -v error ' . $arglist . "\n";
+		`$FFMPEG $arglist -v error`;
 		#$pid = open ( LS, '-|', '/u01/ffmpeg-git-20171123-64bit-static/ffmpeg  -v error ' . $arglist . ' 2>&1');
 		#my $output = do{ local $/; <LS> };
 		#close LS;
