@@ -13,7 +13,7 @@ $SIG{ABRT} = sub {  kill 'KILL', $pid;die "Caught a abrt $pid $!"; };
 $SIG{TRAP} = sub {  kill 'KILL', $pid;die "Caught a trap $pid $!"; };
 $SIG{STOP} = sub {  kill 'KILL', $pid;die "Caught a stop $pid $!"; };
 
-my $FFMPEG = '/opt/emby-server/bin/ffmpeg';
+my $FFMPEG = '/opt/emby-server/bin/ffmpeg.oem';
 
 sub createArglist(){
 	my $arglist = '';
