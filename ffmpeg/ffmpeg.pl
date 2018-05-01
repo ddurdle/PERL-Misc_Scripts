@@ -3,6 +3,8 @@
 use File::Copy qw(move);
 
 use constant RETRY => 10;
+use constant BLOCK_SRT => 1;
+
 my $pidi=0;
 
 $SIG{QUIT} = sub {  kill 'KILL', $pid;die "Caught a quit $pid $!"; };
@@ -13,7 +15,7 @@ $SIG{ABRT} = sub {  kill 'KILL', $pid;die "Caught a abrt $pid $!"; };
 $SIG{TRAP} = sub {  kill 'KILL', $pid;die "Caught a trap $pid $!"; };
 $SIG{STOP} = sub {  kill 'KILL', $pid;die "Caught a stop $pid $!"; };
 
-my $FFMPEG = '/opt/emby-server/bin/ffmpeg.oem';
+my $FFMPEG = '/u01/ffmpeg-git-20171123-64bit-static/ffmpeg -timeout 5000000 ';
 
 sub createArglist(){
 	my $arglist = '';
