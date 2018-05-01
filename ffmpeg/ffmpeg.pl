@@ -4,6 +4,7 @@ use File::Copy qw(move);
 
 use constant RETRY => 10;
 use constant BLOCK_SRT => 1;
+use constant BLOCK_TRANSCODE => 1;
 
 my $pidi=0;
 
@@ -54,10 +55,16 @@ $arglist = createArglist();
 
 # SRT loading only, load regular routine
 if ($isSRT or $arglist =~ m%\-f segment% ){
-	`$FFMPEG $arglist`;
+	if (BLOCK_SRT){
+		die("SRT transcoding is disabled.");
+	}else{
+		`$FFMPEG $arglist`;
+	}
 # is google drive, so must be wanting to transcode the video -- block
 }elsif ($arglist =~ m%\:9988%){
-
+	if (BLOCK_TRANSCODE){
+		die("video/audio transcoding is disabled.");
+	}
 
 #run only once? -- enable retry
 }elsif ($duration_ptr == -1){
@@ -72,18 +79,18 @@ if ($isSRT or $arglist =~ m%\-f segment% ){
 
 		#retry if contains error 403
 		if($output =~ m%403%){
-			print STDERR "ERROR";
+			print STDERR "ERROR:";
 			print STDERR $output;
 			print STDERR 'retry ffmpeg ' . $arglist . "\n";
 			sleep 2;
 			$retry++;
 		}else{
-			print STDERR "DONE";
 			print STDERR $output;
+			print STDERR "\n\n\nDONE\n\n";
 			$retry = 0;
 		}
 	}
-#running wit duration? -- keep retrying and adjusting duration
+#running with duration? -- keep retrying and adjusting duration
 }elsif ($duration != 0){
 
 	my @moveList;
