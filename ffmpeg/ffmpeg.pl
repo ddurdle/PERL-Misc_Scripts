@@ -49,7 +49,7 @@ foreach my $current (0 .. $#ARGV) {
 	}elsif ($ARGV[$current] =~ m%\-user_agent%){
 		$ARGV[$current++] = '';
 		$ARGV[$current] = '';
-	}elsif ($ARGV[$current] =~ m%\--fflags%){
+	}elsif ($ARGV[$current] =~ m%\-fflags%){
 		$ARGV[$current++] = '';
 		$ARGV[$current] = '';
 	}elsif ($ARGV[$current] =~ m%\.ts%){
