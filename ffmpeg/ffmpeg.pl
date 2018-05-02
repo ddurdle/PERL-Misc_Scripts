@@ -54,7 +54,7 @@ $arglist = createArglist();
 
 
 # SRT loading only, load regular routine
-if ($isSRT or $arglist =~ m%\-f segment% ){
+if ($isSRT){
 	if (BLOCK_SRT){
 		die("SRT transcoding is disabled.");
 	}else{
