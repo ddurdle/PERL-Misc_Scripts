@@ -43,13 +43,16 @@ foreach my $current (0 .. $#ARGV) {
 		my ($hour,$min,$sec) = $ARGV[$current] =~ m%0?(\d+):0?(\d+):0?(\d+)%;
 		$duration = $hour*60*60 + $min*60 + $sec;
 		$duration_ptr = $current;
-	}elsif ($ARGV[$current] =~ m%\-analyzeduration%){
+	}elsif ($ARGV[$current] =~ m%\-analyzeduration %){
 		$ARGV[$current++] = '';
 		$ARGV[$current] = '';
-	}elsif ($ARGV[$current] =~ m%\-user_agent%){
+	}elsif ($ARGV[$current] =~ m%\-user_agent %){
 		$ARGV[$current++] = '';
 		$ARGV[$current] = '';
-	}elsif ($ARGV[$current] =~ m%\-fflags%){
+	}elsif ($ARGV[$current] =~ m%\-fflags %){
+		$ARGV[$current++] = '';
+		$ARGV[$current] = '';
+	}elsif ($ARGV[$current] =~ m%\-f %){
 		$ARGV[$current++] = '';
 		$ARGV[$current] = '';
 	}elsif ($ARGV[$current] =~ m%\.ts%){
