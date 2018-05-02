@@ -86,8 +86,8 @@ if ($isSRT){
 	my $retry=1;
 	while ($retry< RETRY and $retry > 0){
 		#my $result = 'x';
-		print STDERR "running " . FFMPEG_OEM . ' ' . $arglist . "\n";
-		$pid = open ( LS, '-|', '$FFMPEG_OEM ' . $arglist . ' 2>&1');
+		print STDERR "running " . $FFMPEG_OEM . ' ' . $arglist . "\n";
+		$pid = open ( LS, '-|', $FFMPEG_OEM . ' ' . $arglist . ' 2>&1');
 		my $output = do{ local $/; <LS> };
 		close LS;
 		#my $output = `/u01/ffmpeg-git-20171123-64bit-static/ffmpeg $arglist -v error 2>&1`;
