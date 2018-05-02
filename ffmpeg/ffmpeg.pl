@@ -71,6 +71,8 @@ if ($isSRT){
 	if (BLOCK_SRT){
 		die("SRT transcoding is disabled.");
 	}else{
+		print STDERR "running " . 'ffmpeg ' . $arglist . "\n";
+
 		`$FFMPEG $arglist`;
 	}
 # is google drive, so must be wanting to transcode the video -- block
@@ -84,7 +86,7 @@ if ($isSRT){
 	my $retry=1;
 	while ($retry< RETRY and $retry > 0){
 		#my $result = 'x';
-		print STDERR "running " . 'ffmpeg ' + $arglist + "\n";
+		print STDERR "running " . FFMPEG_OEM . ' ' . $arglist . "\n";
 		$pid = open ( LS, '-|', '$FFMPEG_OEM ' . $arglist . ' 2>&1');
 		my $output = do{ local $/; <LS> };
 		close LS;
