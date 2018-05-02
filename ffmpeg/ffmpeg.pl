@@ -49,6 +49,9 @@ foreach my $current (0 .. $#ARGV) {
 	}elsif ($ARGV[$current] =~ m%\-user_agent%){
 		$ARGV[$current++] = '';
 		$ARGV[$current] = '';
+	}elsif ($ARGV[$current] =~ m%\--fflags%){
+		$ARGV[$current++] = '';
+		$ARGV[$current] = '';
 	}elsif ($ARGV[$current] =~ m%\.ts%){
 		$filename_ptr = $current;
 		#$ARGV[$filename_ptr] =~ s%\.\d+\.ts%\.$count\.ts%;
