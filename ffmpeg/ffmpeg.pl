@@ -83,7 +83,7 @@ if ($isSRT){
 	my $retry=1;
 	while ($retry< RETRY and $retry > 0){
 		#my $result = 'x';
-		print "running " . 'ffmpeg ' + $arglist + "\n";
+		print STDERR "running " . 'ffmpeg ' + $arglist + "\n";
 		$pid = open ( LS, '-|', '$FFMPEG ' . $arglist . ' 2>&1');
 		my $output = do{ local $/; <LS> };
 		close LS;
