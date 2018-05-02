@@ -43,6 +43,9 @@ foreach my $current (0 .. $#ARGV) {
 		my ($hour,$min,$sec) = $ARGV[$current] =~ m%0?(\d+):0?(\d+):0?(\d+)%;
 		$duration = $hour*60*60 + $min*60 + $sec;
 		$duration_ptr = $current;
+	}elsif ($ARGV[$current] =~ m%\-analyzeduration%){
+		$ARGV[$current++] = '';
+		$ARGV[$current] = '';
 	}elsif ($ARGV[$current] =~ m%\.ts%){
 		$filename_ptr = $current;
 		#$ARGV[$filename_ptr] =~ s%\.\d+\.ts%\.$count\.ts%;
