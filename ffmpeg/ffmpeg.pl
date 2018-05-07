@@ -26,7 +26,7 @@ my $FFPROBE = '/opt/emby-server/bin/ffprobe ';
 sub createArglist(){
 	my $arglist = '';
 	foreach my $current (0 .. $#ARGV) {
-		if ($ARGV[$current] =~ m%\s% or $ARGV[$current] =~ m%\(% or $ARGV[$current] =~ m%\)%){
+		if ($ARGV[$current] =~ m%\s% or $ARGV[$current] =~ m%\(% or $ARGV[$current] =~ m%\)% or $ARGV[$current] =~ m%\&%){
 	   		$arglist .= ' "' .$ARGV[$current] . '"';
 		}else{$arglist .= ' ' .$ARGV[$current];}
 	}
