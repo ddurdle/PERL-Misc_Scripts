@@ -113,7 +113,7 @@ if ($isSRT){
 
 		# no transcoding available
 		if($output =~ m%moov atom not found%){
-			$arglist =~ s%\-f matroska,webm %\-f mp4 %;
+			$arglist =~ s%\-f mp4 %\-f matroska,webm %;
 			`$FFMPEG_OEM $arglist`;
 		}
 
