@@ -96,15 +96,26 @@ if ($isSRT){
 # we've been told to either video/audio transcode or direct stream
 }elsif ($arglist =~ m%\:9988%){
 
+
 	# when direct streaming, prefer the Google Transcode version over remuxing
 	# this will reduce ffmpeg from remuxing and causing high cpu at the start of a new playback request
 	# the remuxing will be spreadout over the entire playback session as Google will limit the transfer rate
 	if (PREFER_GOOGLE_TRANSCODE){
 		$arglist =~ s%\"?\Q$url\E\"?%\"$url\&preferred_quality\=2\&override\=true\"%;
-		$arglist =~ s%\-f matroska,webm%\-f mp4%;
+		$arglist =~ s%\-f matroska,webm %\-f mp4 %;
 
 		print STDERR "URL = $url, $arglist\n";
-		`$FFMPEG_OEM $arglist`;
+		#`$FFMPEG_OEM $arglist`;
+		$pid = open ( LS, '-|', $FFMPEG_OEM . ' ' . $arglist . ' 2>&1');
+		my $output = do{ local $/; <LS> };
+		close LS;
+		#my $output = `/u01/ffmpeg-git-20171123-64bit-static/ffmpeg $arglist -v error 2>&1`;
+
+		# no transcoding available
+		if($output =~ m%moov atom not found%){
+			$arglist =~ s%\-f matroska,webm %\-f mp4 %;
+			`$FFMPEG_OEM $arglist`;
+		}
 
 	# let's check to see if we are trying remux 4k content
 	}else{
@@ -118,7 +129,7 @@ if ($isSRT){
 			# prefer to drop to Google Transcode over video transcoding
 			if (GOOGLE_TRANSCODE){
 				$arglist =~ s%\"?\Q$url\E\"?%\"$url\&preferred_quality\=0\&override\=true\"%;
-				$arglist =~ s%\-f matroska,webm%\-f mp4%;
+				$arglist =~ s%\-f matroska,webm %\-f mp4 %;
 
 				print STDERR "URL = $url, $arglist\n";
 				`$FFMPEG_OEM $arglist`;
