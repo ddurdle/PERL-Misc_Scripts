@@ -6,6 +6,7 @@ use constant RETRY => 10;
 use constant BLOCK_SRT => 1;
 use constant BLOCK_TRANSCODE => 1;
 use constant GOOGLE_TRANSCODE => 1;
+use constant PREFER_GOOGLE_TRANSCODE => 1;
 
 
 my $pidi=0;
@@ -82,25 +83,35 @@ if ($isSRT){
 # is google drive, so must be wanting to transcode the video -- block
 }elsif ($arglist =~ m%\:9988%){
 
-	$pid = open ( LS, '-|', $FFPROBE . ' -i "' . $url . '" 2>&1');
-	my $output = do{ local $/; <LS> };
-	close LS;
+	if (PREFER_GOOGLE_TRANSCODE){
+		$arglist =~ s%\"?\Q$url\E\"?%\"$url\&preferred_quality\=2\&override\=true\"%;
+		$arglist =~ s%\-f matroska,webm%\-f mp4%;
 
-	if (BLOCK_TRANSCODE and $output =~ m%hevc%){
-		if (GOOGLE_TRANSCODE){
-			$arglist =~ s%\"?\Q$url\E\"?%\"$url\&preferred_quality\=2\&override\=true\"%;
-			$arglist =~ s%\-f matroska,webm%\-f mp4%;
+		print STDERR "URL = $url, $arglist\n";
+		`$FFMPEG_OEM $arglist`;
+	}else{
+		$pid = open ( LS, '-|', $FFPROBE . ' -i "' . $url . '" 2>&1');
+		my $output = do{ local $/; <LS> };
+		close LS;
 
-			print STDERR "URL = $url, $arglist\n";
-			`$FFMPEG $arglist`;
+		if (BLOCK_TRANSCODE and $output =~ m%hevc%){
+			if (GOOGLE_TRANSCODE){
+				$arglist =~ s%\"?\Q$url\E\"?%\"$url\&preferred_quality\=2\&override\=true\"%;
+				$arglist =~ s%\-f matroska,webm%\-f mp4%;
+
+				print STDERR "URL = $url, $arglist\n";
+				`$FFMPEG_OTEM $arglist`;
+			}else{
+				die("video/audio transcoding is disabled.");
+			}
+
+
 		}else{
-			die("video/audio transcoding is disabled.");
+			`$FFMPEG_OEM $arglist`;
 		}
 
-
-	}else{
-		`$FFMPEG_OEM $arglist`;
 	}
+
 
 #run only once? -- enable retry
 }elsif ($duration_ptr == -1){
