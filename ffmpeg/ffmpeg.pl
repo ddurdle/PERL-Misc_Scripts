@@ -97,7 +97,7 @@ if ($isSRT){
 
 
 	}else{
-		`$FFMPEG $arglist`;
+		`$FFMPEG_OEM $arglist`;
 	}
 
 #run only once? -- enable retry
