@@ -5,7 +5,7 @@ use File::Copy qw(move);
 use constant RETRY => 10;
 use constant BLOCK_SRT => 1;
 use constant BLOCK_TRANSCODE => 1;
-use constant GOOGLE_TRANSCODE => 1;
+use constant GOOGLE_TRANSCODE => 0;
 
 
 my $pidi=0;
