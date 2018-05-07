@@ -18,6 +18,8 @@ $SIG{STOP} = sub {  kill 'KILL', $pid;die "Caught a stop $pid $!"; };
 
 my $FFMPEG = '/u01/ffmpeg-git-20171123-64bit-static/ffmpeg -timeout 5000000 ';
 my $FFMPEG_OEM = '/opt/emby-server/bin/ffmpeg.oem -timeout 5000000 ';
+my $FFPROBE = '/opt/emby-server/bin/ffprobe ';
+
 
 sub createArglist(){
 	my $arglist = '';
@@ -38,15 +40,15 @@ my $filename_ptr = 0;
 my $count = 1;
 my $renameFileName = '';
 my $isSRT = 0;
+my $url = '';
 foreach my $current (0 .. $#ARGV) {
 	# fetch how long to encode
 	if ($ARGV[$current] =~ m%\d\d:\d\d:\d\d%){
 		my ($hour,$min,$sec) = $ARGV[$current] =~ m%0?(\d+):0?(\d+):0?(\d+)%;
 		$duration = $hour*60*60 + $min*60 + $sec;
 		$duration_ptr = $current;
-	}elsif (0 and $ARGV[$current] =~ m%\-analyzeduration%){
-		$ARGV[$current++] = '';
-		$ARGV[$current] = '';
+	}elsif ($ARGV[$current] =~ m%\:9988%){
+		$url = $ARGV[$current];
 	}elsif (0 and $ARGV[$current] =~ m%\-user_agent%){
 		$ARGV[$current++] = '';
 		$ARGV[$current] = '';
@@ -77,8 +79,15 @@ if ($isSRT){
 	}
 # is google drive, so must be wanting to transcode the video -- block
 }elsif ($arglist =~ m%\:9988%){
-	if (BLOCK_TRANSCODE){
+
+	$pid = open ( LS, '-|', $FFPROBE . ' -i "' . $url . '" 2>&1');
+	my $output = do{ local $/; <LS> };
+	close LS;
+
+	if (BLOCK_TRANSCODE and $output =~ m%hevc%){
 		die("video/audio transcoding is disabled.");
+	}else{
+		`$FFMPEG $arglist`;
 	}
 
 #run only once? -- enable retry
