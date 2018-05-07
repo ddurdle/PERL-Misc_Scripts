@@ -89,7 +89,7 @@ if ($isSRT){
 	if (BLOCK_TRANSCODE and $output =~ m%hevc%){
 		if (GOOGLE_TRANSCODE){
 			$arglist =~ s%\Q$url\E%$url\&preferred_quality\=2\&override\=true%;
-			#print STDERR "ARGLIST = $arglist\n";
+			print STDERR "URL = $url\n";
 			`$FFMPEG $arglist`;
 		}else{
 			die("video/audio transcoding is disabled.");
