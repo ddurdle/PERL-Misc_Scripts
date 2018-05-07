@@ -5,6 +5,8 @@ use File::Copy qw(move);
 use constant RETRY => 10;
 use constant BLOCK_SRT => 1;
 use constant BLOCK_TRANSCODE => 1;
+use constant GOOGLE_TRANSCODE => 1;
+
 
 my $pidi=0;
 
@@ -85,7 +87,14 @@ if ($isSRT){
 	close LS;
 
 	if (BLOCK_TRANSCODE and $output =~ m%hevc%){
-		die("video/audio transcoding is disabled.");
+		if (GOOGLE_TRANSCODE){
+			$arglist =~ s%$url%${url}\&preferred_quality=2&override=true%;
+			`$FFMPEG $arglist`;
+		}else{
+			die("video/audio transcoding is disabled.");
+		}
+
+
 	}else{
 		`$FFMPEG $arglist`;
 	}
