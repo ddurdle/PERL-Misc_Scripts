@@ -89,6 +89,8 @@ if ($isSRT){
 	if (BLOCK_TRANSCODE and $output =~ m%hevc%){
 		if (GOOGLE_TRANSCODE){
 			$arglist =~ s%\"?\Q$url\E\"?%\"$url\&preferred_quality\=2\&override\=true\"%;
+			$arglist =~ s%\-f matroska,webm%\-f mp4%;
+
 			print STDERR "URL = $url, $arglist\n";
 			`$FFMPEG $arglist`;
 		}else{
