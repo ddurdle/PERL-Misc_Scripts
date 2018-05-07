@@ -2,10 +2,19 @@
 
 use File::Copy qw(move);
 
+# number of times to retry when ffmpeg encounters network errors
 use constant RETRY => 10;
+
+# block subtitle remuxing?
 use constant BLOCK_SRT => 1;
+
+# block 4K video encoding requets
 use constant BLOCK_TRANSCODE => 1;
+
+# prefer to drop 4K to Google Transcode for 4k video encoding requests
 use constant GOOGLE_TRANSCODE => 1;
+
+# prefer to direct stream requests with Google Transcode feeds (will reduce CPU load)
 use constant PREFER_GOOGLE_TRANSCODE => 1;
 
 
@@ -71,41 +80,54 @@ foreach my $current (0 .. $#ARGV) {
 $arglist = createArglist();
 
 
-# SRT loading only, load regular routine
+# request is for subtitle remuxing
 if ($isSRT){
+
+	# block subtitle remuxing requets?
 	if (BLOCK_SRT){
 		die("SRT transcoding is disabled.");
 	}else{
 		print STDERR "running " . 'ffmpeg ' . $arglist . "\n";
 
-		`$FFMPEG $arglist`;
+		`$FFMPEG_OEM $arglist`;
 	}
-# is google drive, so must be wanting to transcode the video -- block
+
+# ### Python-GoogleDrive-VideoStream REQUEST
+# we've been told to either video/audio transcode or direct stream
 }elsif ($arglist =~ m%\:9988%){
 
+	# when direct streaming, prefer the Google Transcode version over remuxing
+	# this will reduce ffmpeg from remuxing and causing high cpu at the start of a new playback request
+	# the remuxing will be spreadout over the entire playback session as Google will limit the transfer rate
 	if (PREFER_GOOGLE_TRANSCODE){
 		$arglist =~ s%\"?\Q$url\E\"?%\"$url\&preferred_quality\=2\&override\=true\"%;
 		$arglist =~ s%\-f matroska,webm%\-f mp4%;
 
 		print STDERR "URL = $url, $arglist\n";
 		`$FFMPEG_OEM $arglist`;
+
+	# let's check to see if we are trying remux 4k content
 	}else{
 		$pid = open ( LS, '-|', $FFPROBE . ' -i "' . $url . '" 2>&1');
 		my $output = do{ local $/; <LS> };
 		close LS;
 
+		# content is 4K HEVC which is going to trigger video transcoding (at this point)
+		# even when you block video transcoding in Emby admin console, it will try to video encode if remuxing is enabled
 		if (BLOCK_TRANSCODE and $output =~ m%hevc%){
+			# prefer to drop to Google Transcode over video transcoding
 			if (GOOGLE_TRANSCODE){
-				$arglist =~ s%\"?\Q$url\E\"?%\"$url\&preferred_quality\=2\&override\=true\"%;
+				$arglist =~ s%\"?\Q$url\E\"?%\"$url\&preferred_quality\=0\&override\=true\"%;
 				$arglist =~ s%\-f matroska,webm%\-f mp4%;
 
 				print STDERR "URL = $url, $arglist\n";
-				`$FFMPEG_OTEM $arglist`;
+				`$FFMPEG_OEM $arglist`;
+			# reject the playback request
 			}else{
 				die("video/audio transcoding is disabled.");
 			}
 
-
+		# direct stream
 		}else{
 			`$FFMPEG_OEM $arglist`;
 		}
@@ -113,11 +135,11 @@ if ($isSRT){
 	}
 
 
-#run only once? -- enable retry
+#### LIVE TV REQUEST
+# request with no duration, so not a DVR request, cycle over network errors
 }elsif ($duration_ptr == -1){
 	my $retry=1;
 	while ($retry< RETRY and $retry > 0){
-		#my $result = 'x';
 		print STDERR "running " . $FFMPEG_OEM . ' ' . $arglist . "\n";
 		$pid = open ( LS, '-|', $FFMPEG_OEM . ' ' . $arglist . ' 2>&1');
 		my $output = do{ local $/; <LS> };
@@ -137,7 +159,9 @@ if ($isSRT){
 			$retry = 0;
 		}
 	}
-#running with duration? -- keep retrying and adjusting duration
+
+#### LIVE TV DVR REQUEST
+# request with duration indicates timed recording
 }elsif ($duration != 0){
 
 	my @moveList;
