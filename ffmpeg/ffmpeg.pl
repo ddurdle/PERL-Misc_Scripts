@@ -102,8 +102,14 @@ if ($isSRT){
 	# the remuxing will be spreadout over the entire playback session as Google will limit the transfer rate
 	if (PREFER_GOOGLE_TRANSCODE){
 
-		if ($arglist =~ m%\-pix_fmt yuv420p%){
-			$arglist =~ s%\"?\Q$url\E\"?%\"$url\&preferred_quality\=2\&override\=true\"%;
+		if ($arglist =~ m%\-pix_fmt yuv420p% or $arglist =~ m%\-bsf\:v h264_mp4toannexb%){
+			if ($arglist =~ m%\,426\)%){
+				$arglist =~ s%\"?\Q$url\E\"?%\"$url\&preferred_quality\=2\&override\=true\"%;
+			}elsif ($arglist =~ m%\,1280\)%){
+				$arglist =~ s%\"?\Q$url\E\"?%\"$url\&preferred_quality\=1\&override\=true\"%;
+			}else{
+				$arglist =~ s%\"?\Q$url\E\"?%\"$url\&preferred_quality\=0\&override\=true\"%;
+			}
 			$arglist =~ s%\-codec\:v\:0 .* -f segment%\-codec\:v\:0 copy \-copyts \-vsync \-1 \-codec\:a\:0 copy \-copypriorss\:a\:0 0 \-f segment%;
 		}else{
 			$arglist =~ s%\"?\Q$url\E\"?%\"$url\&preferred_quality\=0\&override\=true\"%;
