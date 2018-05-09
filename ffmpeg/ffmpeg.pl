@@ -103,7 +103,7 @@ if ($isSRT){
 	if (PREFER_GOOGLE_TRANSCODE){
 
 		if ($arglist =~ m%\-pix_fmt yuv420p% or $arglist =~ m%\-bsf\:v h264_mp4toannexb% or $arglist =~ m%\-codec\:v\:0 libx264%){
-			if ($arglist =~ m%\,426\)%){
+			if ($arglist =~ m%\,426\)% or $arglist =~ m%\,640\)% ){
 				$arglist =~ s%\"?\Q$url\E\"?%\"$url\&preferred_quality\=2\&override\=true\"%;
 			}elsif ($arglist =~ m%\,1280\)% or $arglist =~ m%\,720\)%){
 				$arglist =~ s%\"?\Q$url\E\"?%\"$url\&preferred_quality\=1\&override\=true\"%;
