@@ -158,7 +158,7 @@ if ($isSRT){
 		#my $output = `/u01/ffmpeg-git-20171123-64bit-static/ffmpeg $arglist -v error 2>&1`;
 
 		#retry if contains error 403
-		if($output =~ m%403%){
+		if($output =~ m%403% or $output =~ m%Connection timed out%){
 			print STDERR "ERROR:";
 			print STDERR $output;
 			print STDERR 'retry ffmpeg ' . $arglist . "\n";
