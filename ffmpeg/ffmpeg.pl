@@ -17,6 +17,9 @@ use constant GOOGLE_TRANSCODE => 1;
 # prefer to direct stream requests with Google Transcode feeds (will reduce CPU load)
 use constant PREFER_GOOGLE_TRANSCODE => 1;
 
+use constant PATH_TO_EMBY_FFMPEG => '/opt/emby-server/bin/';
+use constant PATH_TO_FFMPEG => '/u01/ffmpeg-git-20171123-64bit-static/';
+
 
 my $pidi=0;
 
@@ -28,9 +31,9 @@ $SIG{ABRT} = sub {  kill 'KILL', $pid;die "Caught a abrt $pid $!"; };
 $SIG{TRAP} = sub {  kill 'KILL', $pid;die "Caught a trap $pid $!"; };
 $SIG{STOP} = sub {  kill 'KILL', $pid;die "Caught a stop $pid $!"; };
 
-my $FFMPEG = '/u01/ffmpeg-git-20171123-64bit-static/ffmpeg -timeout 5000000 ';
-my $FFMPEG_OEM = '/opt/emby-server/bin/ffmpeg.oem -timeout 5000000 ';
-my $FFPROBE = '/opt/emby-server/bin/ffprobe ';
+my $FFMPEG = PATH_TO_FFMPEG . '/ffmpeg -timeout 5000000 ';
+my $FFMPEG_OEM = PATH_TO_EMBY_FFMPEG.'/ffmpeg.oem -timeout 5000000 ';
+my $FFPROBE = PATH_TO_EMBY_FFMPEG .'/ffprobe ';
 
 
 sub createArglist(){
