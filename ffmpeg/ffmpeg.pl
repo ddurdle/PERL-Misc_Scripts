@@ -183,7 +183,7 @@ if ($isSRT){
 		}else{
 			print STDERR $output;
 			print STDERR "\n\n\nDONE\n\n";
-			$retry = 0;
+			$retry++;
 		}
 	}
 
