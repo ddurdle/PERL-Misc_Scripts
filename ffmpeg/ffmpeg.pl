@@ -31,8 +31,8 @@ $SIG{ABRT} = sub {  kill 'KILL', $pid;die "Caught a abrt $pid $!"; };
 $SIG{TRAP} = sub {  kill 'KILL', $pid;die "Caught a trap $pid $!"; };
 $SIG{STOP} = sub {  kill 'KILL', $pid;die "Caught a stop $pid $!"; };
 
-my $FFMPEG = PATH_TO_FFMPEG . '/ffmpeg -timeout 5000000 ';
 my $FFMPEG_OEM = PATH_TO_EMBY_FFMPEG.'/ffmpeg.oem -timeout 5000000 ';
+my $FFMPEG = $FFMPEG_OEM;#PATH_TO_FFMPEG . '/ffmpeg -timeout 5000000 ';
 my $FFPROBE = PATH_TO_EMBY_FFMPEG .'/ffprobe ';
 
 
