@@ -62,7 +62,7 @@ foreach my $current (0 .. $#ARGV) {
 		my ($hour,$min,$sec) = $ARGV[$current] =~ m%0?(\d+):0?(\d+):0?(\d+)%;
 		$duration = $hour*60*60 + $min*60 + $sec;
 		$duration_ptr = $current;
-	}elsif ($ARGV[$current] =~ m%\:9988%){
+	}elsif ($ARGV[$current] =~ m%^htt.*\:9988%){
 		$url = $ARGV[$current];
 	}elsif (0 and $ARGV[$current] =~ m%\-user_agent%){
 		$ARGV[$current++] = '';
