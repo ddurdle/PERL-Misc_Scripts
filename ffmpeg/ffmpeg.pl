@@ -33,6 +33,7 @@ $SIG{STOP} = sub {  kill 'KILL', $pid;die "Caught a stop $pid $!"; };
 
 my $FFMPEG_OEM = PATH_TO_EMBY_FFMPEG.'/ffmpeg.oem -timeout 5000000 ';
 my $FFMPEG = $FFMPEG_OEM;#PATH_TO_FFMPEG . '/ffmpeg -timeout 5000000 ';
+my $FFMPEG_TEST = PATH_TO_EMBY_FFMPEG.'/ffmpeg.oem -reconnect 1 -reconnect_at_eof 1 -reconnect_streamed 1 -reconnect_delay_max 2000 -timeout 5000000 ';
 my $FFPROBE = PATH_TO_EMBY_FFMPEG .'/ffprobe ';
 
 
@@ -177,7 +178,7 @@ if ($isSRT){
 		#my $output = do{ local $/; <LS> };
 		#close LS;
 		#my $output = `/u01/ffmpeg-git-20171123-64bit-static/ffmpeg $arglist -v error 2>&1`;
-		`$FFMPEG $arglist -v error`;
+		`$FFMPEG_TEST $arglist -v error`;
 		#retry if contains error 403
 		$retry++;
 		next;
