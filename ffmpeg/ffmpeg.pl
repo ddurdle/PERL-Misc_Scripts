@@ -173,12 +173,14 @@ if ($isSRT){
 		}
 		print STDERR "running LIVETV " . $FFMPEG . ' ' . $arglist . "\n";
 
-		$pid = open ( LS, '-|', $FFMPEG . ' ' . $arglist . ' 2>&1');
-		my $output = do{ local $/; <LS> };
-		close LS;
+		#$pid = open ( LS, '-|', $FFMPEG . ' ' . $arglist . ' 2>&1');
+		#my $output = do{ local $/; <LS> };
+		#close LS;
 		#my $output = `/u01/ffmpeg-git-20171123-64bit-static/ffmpeg $arglist -v error 2>&1`;
-
+		`$FFMPEG $arglist -v error`;
 		#retry if contains error 403
+		$retry++;
+		next;
 		if($output =~ m%403% or $output =~ m%Connection timed out%){
 			print STDERR "ERROR:";
 			print STDERR $output;
