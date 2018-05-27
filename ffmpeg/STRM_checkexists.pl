@@ -30,10 +30,10 @@ sub readDIR($){
 
 my $directory = shift;
 
-opendir (DIR, $directory) or die $!;
+opendir (my $dir, $directory) or die $!;
 
 
-while (my $file = readdir(DIR)) {
+while (my $file = readdir($dir)) {
 
 
 	next if $file eq '.' or $file eq '..';
@@ -43,6 +43,8 @@ while (my $file = readdir(DIR)) {
 		readDIR($directory. '/'. $file);
 		next;
 
+	}elsif ( !($file =~ m%\.strm%i)){
+		next;
 	}
 
 	open(STRM, $directory. '/'. $file) or die ('cannot open input '.$file);
@@ -61,6 +63,6 @@ while (my $file = readdir(DIR)) {
 
 
 }
-close(DIR);
+close($dir);
 
 }
