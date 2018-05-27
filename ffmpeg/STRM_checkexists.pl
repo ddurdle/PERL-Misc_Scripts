@@ -22,13 +22,28 @@ my $directory = $opt{'d'};
 
 TOOLS_CRAWLER::ignoreCookies();
 
+readDIR($directory);
+
+
+
+sub readDIR($){
+
+my $directory = shift;
+
 opendir (DIR, $directory) or die $!;
 
 
 while (my $file = readdir(DIR)) {
 
+
 	next if $file eq '.' or $file eq '..';
-	print "$file\n";
+
+	if ( -d $directory. '/'. $file){
+
+		readDIR($directory. '/'. $file);
+		next;
+
+	}
 
 	open(STRM, $directory. '/'. $file) or die ('cannot open input '.$file);
 	my $url = <STRM>;
@@ -48,5 +63,4 @@ while (my $file = readdir(DIR)) {
 }
 close(DIR);
 
-
-
+}
