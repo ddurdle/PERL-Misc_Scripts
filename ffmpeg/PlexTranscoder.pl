@@ -97,7 +97,7 @@ if ($isSRT){
 }elsif ($arglist =~ m%\:9988%){
 
 
-
+	print "$PATH_TO_TRANSCODER $arglist";
 	`$PATH_TO_TRANSCODER $arglist`;
 
 }
