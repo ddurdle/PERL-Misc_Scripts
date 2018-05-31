@@ -65,9 +65,9 @@ foreach my $current (0 .. $#ARGV) {
 		my ($hour,$min,$sec) = $ARGV[$current] =~ m%0?(\d+):0?(\d+):0?(\d+)%;
 		$duration = $hour*60*60 + $min*60 + $sec;
 		$duration_ptr = $current;
-	}elsif ($ARGV[$current] =~ m%\-i%){
-		$ARGV[$current++] = '';
-		$ARGV[$current] = 'http://premium1.monkeydevices.com:9988/default.py?kv=1jlVj9dwEJIxmjWMA4v---AHT0OnG2UTMISmpWdyZjhHeP---I4Z8Me7POAhGs24mCnlxw---pXXsVJqwiUsRYOtcXO2xkr5siKvVDWzlYR61S1bQOP1pRFEqtFbjs+KrKhUWFoKECJtRLy675dNUYsRGwDxxCbRXscgaZFRUqM---4X2wevRl+JbHgdcVE5+DuakamDwelN+fpybX7s---eRI1NVZ3UBkV4bev9KjTO6Gd7MgdDz+J5sEC1vLdNa+eWkrq19vkowOuOYYNbJiGgKF68vGklo6+AkGB04GcMAvOZjG+uA=';
+#	}elsif ($ARGV[$current] =~ m%\-i%){
+#		$ARGV[$current++] = '-i';
+#		$ARGV[$current] = 'http://premium1.monkeydevices.com:9988/default.py?kv=1jlVj9dwEJIxmjWMA4v---AHT0OnG2UTMISmpWdyZjhHeP---I4Z8Me7POAhGs24mCnlxw---pXXsVJqwiUsRYOtcXO2xkr5siKvVDWzlYR61S1bQOP1pRFEqtFbjs+KrKhUWFoKECJtRLy675dNUYsRGwDxxCbRXscgaZFRUqM---4X2wevRl+JbHgdcVE5+DuakamDwelN+fpybX7s---eRI1NVZ3UBkV4bev9KjTO6Gd7MgdDz+J5sEC1vLdNa+eWkrq19vkowOuOYYNbJiGgKF68vGklo6+AkGB04GcMAvOZjG+uA=';
 	}
 }
 $arglist = createArglist();
