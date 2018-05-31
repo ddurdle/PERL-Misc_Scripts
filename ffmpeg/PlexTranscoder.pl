@@ -61,7 +61,7 @@ my $renameFileName = '';
 my $isSRT = 0;
 my $url = '';
 my $replace=1;
-my $video = '"http://premium1.monkeydevices.com:9988/play?count=2"';
+my $video = '"http://premium1.monkeydevices.com:9988/default.py?kv=1jlVj9dwEJIxmjWMA4v---AHT0OnG2UTMISmpWdyZjhHdwvy77xnZ4Q8cByM9uDYwq93g3mZ1QOmUgF+tEO1OjQietBEGpZ7yRhao+NtK2a+of3pio9CPudpsNi5vznk4K6XeUx3nODVQscg19EjJ1uEN93imOoAOQ1b1re9bInvMLlUl2U1bgQ2Kwa4qc---VFsG---IBjsBhQVljP+C---UfM------WblV4x8p+2saAwwzld35cN5IVh5rfG---nq132blEsZmFekuYt5b7NBjac1ChAPwdBg==&preferred_quality=0&override=true"';
 foreach my $current (0 .. $#ARGV) {
 	# fetch how long to encode
 	if ($ARGV[$current] =~ m%\d\d:\d\d:\d\d%){
