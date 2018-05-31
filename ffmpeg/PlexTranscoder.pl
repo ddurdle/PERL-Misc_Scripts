@@ -76,6 +76,9 @@ foreach my $current (0 .. $#ARGV) {
 $arglist = createArglist();
 
 
+$arglist =~ s%\-codec\:0 \S+%\-codec\:0 h264%;
+$arglist =~ s%\-codec\:1 \S+%\-codec\:1 aac%;
+
 if ($arglist =~ m% dash %){
 	$arglist =~ s%\-i .* -f dash%\-i $video \-codec\:v\:0 copy \-copyts \-vsync \-1 \-codec\:a\:0 copy \-copypriorss\:a\:0 0 \-f dash%;
 
