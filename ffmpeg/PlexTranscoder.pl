@@ -92,13 +92,13 @@ if ($isSRT){
 	}else{
 		print STDERR "running " . 'ffmpeg ' . $arglist . "\n";
 
-		`$PATH_TO_TRANSCODER $arglist`;
+		#`$PATH_TO_TRANSCODER $arglist`;
 
 		$pid = open ( LS, '-|', $$PATH_TO_TRANSCODER . ' ' . $arglist . ' 2>&1');
 		my $output = do{ local $/; <LS> };
 		close LS;
 		#my $output = `/u01/ffmpeg-git-20171123-64bit-static/ffmpeg $arglist -v error 2>&1`;
-		print $output;
+		print "OUTPUT".$output;
 		# no transcoding available
 		if($output =~ m%moov atom not found%){
 			$arglist =~ s%\-f mp4 %\-f matroska,webm %;
