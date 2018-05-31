@@ -76,6 +76,8 @@ foreach my $current (0 .. $#ARGV) {
 }
 $arglist = createArglist();
 
+open (LOG, '>>' . LOGFILE) or die $!;
+print LOG "passed in $arglist\n";
 
 $arglist =~ s%\-codec\:0 \S+%\-codec\:0 h264%;
 $arglist =~ s%\-codec\:1 \S+%\-codec\:1 aac%;
@@ -88,8 +90,7 @@ if ($arglist =~ m% dash %){
 
 }
 
-open (LOG, '>' . LOGFILE) or die $!;
-print LOG "$PATH_TO_TRANSCODER $arglist\n";
+print LOG "$PATH_TO_TRANSCODER $arglist\n\n";
 close(LOG);
 print "$PATH_TO_TRANSCODER $arglist \n\n";
 
