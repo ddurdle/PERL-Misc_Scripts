@@ -84,16 +84,6 @@ $arglist = createArglist();
 
 
 # request is for subtitle remuxing
-if ($isSRT){
-
-	# block subtitle remuxing requets?
-	if (BLOCK_SRT){
-		die("SRT transcoding is disabled.");
-	}else{
-		print STDERR "running " . 'ffmpeg ' . $arglist . "\n";
-
-		#`$PATH_TO_TRANSCODER $arglist`;
-
 		$pid = open ( LS, '-|', $$PATH_TO_TRANSCODER . ' ' . $arglist . ' 2>&1');
 		my $output = do{ local $/; <LS> };
 		close LS;
@@ -105,16 +95,7 @@ if ($isSRT){
 			`$FFMPEG_OEM $arglist`;
 		}
 
-	}
-
-# ### Python-GoogleDrive-VideoStream REQUEST
-# we've been told to either video/audio transcode or direct stream
-}elsif ($arglist =~ m%\:9988%){
 
 
-	print "$PATH_TO_TRANSCODER $arglist";
-	`$PATH_TO_TRANSCODER $arglist`;
-
-}
 
 
