@@ -19,6 +19,7 @@ use constant PREFER_GOOGLE_TRANSCODE => 1;
 
 use constant PATH_TO_TRANSCODER => '"/usr/lib/plexmediaserver/Plex Transcoder.oem"';
 
+use constant LOGFILE => '/tmp/transcode.log';
 
 my $pidi=0;
 
@@ -87,11 +88,12 @@ if ($arglist =~ m% dash %){
 
 }
 
+open (LOG, '>' . LOGFILE) or die $!;
+print LOG "$PATH_TO_TRANSCODER $arglist\n";
+close(LOG);
+print "$PATH_TO_TRANSCODER $arglist \n\n";
 
-		print "$PATH_TO_TRANSCODER $arglist \n\n";
-# request is for subtitle remuxing
-
-		`$PATH_TO_TRANSCODER $arglist`;
+`$PATH_TO_TRANSCODER $arglist`;
 
 
 
