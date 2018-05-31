@@ -67,7 +67,7 @@ foreach my $current (0 .. $#ARGV) {
 		$duration_ptr = $current;
 	}elsif ($ARGV[$current] =~ m%\-i%){
 		$ARGV[$current++] = '-i';
-		$ARGV[$current] = '"http://premium1.monkeydevices.com:9988/default.py?kv=1jlVj9dwEJIxmjWMA4v---AHT0OnG2UTMISmpWdyZjhHeP---I4Z8Me7POAhGs24mCnlxw---pXXsVJqwiUsRYOtcXO2xkr5siKvVDWzlYR61S1bQOP1pRFEqtFbjs+KrKhUWFoKECJtRLy675dNUYsRGwDxxCbRXscgaZFRUqM---4X2wevRl+JbHgdcVE5+DuakamDwelN+fpybX7s---eRI1NVZ3UBkV4bev9KjTO6Gd7MgdDz+J5sEC1vLdNa+eWkrq19vkowOuOYYNbJiGgKF68vGklo6+AkGB04GcMAvOZjG+uA="';
+		$ARGV[$current] = '"http://premium1.monkeydevices.com:9988/default.py?kv=1jlVj9dwEJIxmjWMA4v---AHT0OnG2UTMISmpWdyZjhHdwvy77xnZ4Q8cByM9uDYwq93g3mZ1QOmUgF+tEO1OjQietBEGpZ7yRhao+NtK2a+of3pio9CPudpsNi5vznk4K6XeUx3nODVQscg19EjJ1uEN93imOoAOQ1b1re9bInvMLlUl2U1bgQ2Kwa4qc---VFsG---IBjsBhQVljP+C---UfM------WblV4x8p+2saAwwzld35cN5IVh5rfG---nq132blEsZmFekuYt5b7NBjac1ChAPwdBg=="';
 	}
 }
 $arglist = createArglist();
@@ -75,17 +75,8 @@ $arglist = createArglist();
 
 		print "$PATH_TO_TRANSCODER $arglist \n\n";
 # request is for subtitle remuxing
-		$pid = open ( LS, '-|', $PATH_TO_TRANSCODER . ' ' . $arglist . ' 2>&1');
-		my $output = do{ local $/; <LS> };
-		close LS;
-		#my $output = `/u01/ffmpeg-git-20171123-64bit-static/ffmpeg $arglist -v error 2>&1`;
-		print "OUTPUT".$output;
-		# no transcoding available
-		if($output =~ m%moov atom not found%){
-			$arglist =~ s%\-f mp4 %\-f matroska,webm %;
-			`$FFMPEG_OEM $arglist`;
-		}
 
+		`$PATH_TO_TRANSCODER $arglist`;
 
 
 
