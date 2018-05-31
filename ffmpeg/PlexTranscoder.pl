@@ -36,9 +36,11 @@ my $PATH_TO_TRANSCODER = PATH_TO_TRANSCODER;
 sub createArglist(){
 	my $arglist = '';
 	foreach my $current (0 .. $#ARGV) {
-		if ($ARGV[$current] =~ m%\s% or $ARGV[$current] =~ m%\(% or $ARGV[$current] =~ m%\)% or $ARGV[$current] =~ m%\&%){
+#		if ($ARGV[$current] =~ m%\s% or $ARGV[$current] =~ m%\(% or $ARGV[$current] =~ m%\)% or $ARGV[$current] =~ m%\&%){
+#	   		$arglist .= ' "' .$ARGV[$current] . '"';
+#		}else{$arglist .= ' ' .$ARGV[$current];}
 	   		$arglist .= ' "' .$ARGV[$current] . '"';
-		}else{$arglist .= ' ' .$ARGV[$current];}
+
 	}
 	return $arglist;
 
