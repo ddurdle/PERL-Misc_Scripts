@@ -61,7 +61,7 @@ my $renameFileName = '';
 my $isSRT = 0;
 my $url = '';
 my $replace=1;
-my $video = '"http://premium1.monkeydevices.com:9988/default.py?kv=1jlVj9dwEJIxmjWMA4v---AHT0OnG2UTMISmpWdyZjhHdwvy77xnZ4Q8cByM9uDYwq93g3mZ1QOmUgF+tEO1OjQietBEGpZ7yRhao+NtK2a+of3pio9CPudpsNi5vznk4K6XeUx3nODVQscg19EjJ1uEN93imOoAOQ1b1re9bInvMLlUl2U1bgQ2Kwa4qc---VFsG---IBjsBhQVljP+C---UfM------WblV4x8p+2saAwwzld35cN5IVh5rfG---nq132blEsZmFekuYt5b7NBjac1ChAPwdBg==&preferred_quality=0&override=true"';
+my $video = 'http://premium1.monkeydevices.com:9988/default.py?kv=1jlVj9dwEJIxmjWMA4v---AHT0OnG2UTMISmpWdyZjhHdwvy77xnZ4Q8cByM9uDYwq93g3mZ1QOmUgF+tEO1OjQietBEGpZ7yRhao+NtK2a+of3pio9CPudpsNi5vznk4K6XeUx3nODVQscg19EjJ1uEN93imOoAOQ1b1re9bInvMLlUl2U1bgQ2Kwa4qc---VFsG---IBjsBhQVljP+C---UfM------WblV4x8p+2saAwwzld35cN5IVh5rfG---nq132blEsZmFekuYt5b7NBjac1ChAPwdBg==';
 foreach my $current (0 .. $#ARGV) {
 	# fetch how long to encode
 	if ($ARGV[$current] =~ m%\d\d:\d\d:\d\d%){
@@ -82,11 +82,22 @@ print LOG "passed in $arglist\n";
 $arglist =~ s%\-codec\:0 \S+%\-codec\:0 h264%;
 $arglist =~ s%\-codec\:1 \S+%\-codec\:1 aac%;
 
+
+if (PREFER_GOOGLE_TRANSCODE){
+
+	if ($arglist =~ m%scale\=w\=1280\:h\=720]%){
+		$video .= '&preferred_quality=1&override=true';
+	}elsif ($arglist =~ m%scale\=w\=720\:h\=406%){
+		$video .= '&preferred_quality=2&override=true';
+	}else{
+		$video .= '&preferred_quality=0&override=true';
+	}
+
 if ($arglist =~ m% dash %){
-	$arglist =~ s%\-i .* -f dash%\-i $video \-codec\:v\:0 copy \-copyts \-vsync \-1 \-codec\:a\:0 copy \-copypriorss\:a\:0 0 \-f dash%;
+	$arglist =~ s%\-i .* -f dash%\-i "$video" \-codec\:v\:0 copy \-copyts \-vsync \-1 \-codec\:a\:0 copy \-copypriorss\:a\:0 0 \-f dash%;
 
 }elsif ($arglist =~ m%\-segment_format mpegts %){
-	$arglist =~ s%\-i .* \-segment_format mpegts \-f ssegment%\-i $video \-codec\:v\:0 copy \-copyts \-vsync \-1 \-codec\:a\:0 copy \-copypriorss\:a\:0 0 \-segment_format mpegts \-f ssegment%;
+	$arglist =~ s%\-i .* \-segment_format mpegts \-f ssegment%\-i "$video" \-codec\:v\:0 copy \-copyts \-vsync \-1 \-codec\:a\:0 copy \-copypriorss\:a\:0 0 \-segment_format mpegts \-f ssegment%;
 
 }
 
