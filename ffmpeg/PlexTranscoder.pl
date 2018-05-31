@@ -59,15 +59,17 @@ my $count = 1;
 my $renameFileName = '';
 my $isSRT = 0;
 my $url = '';
+my $replace=1;
 foreach my $current (0 .. $#ARGV) {
 	# fetch how long to encode
 	if ($ARGV[$current] =~ m%\d\d:\d\d:\d\d%){
 		my ($hour,$min,$sec) = $ARGV[$current] =~ m%0?(\d+):0?(\d+):0?(\d+)%;
 		$duration = $hour*60*60 + $min*60 + $sec;
 		$duration_ptr = $current;
-	}elsif ( $ARGV[$current] =~ m%\-i%){
+	}elsif ($replace and  $ARGV[$current] =~ m%\-i%){
 		$ARGV[$current++] = '-i';
-		$ARGV[$current] = '"http://premium1.monkeydevices.com:9988/default.py?kv=1jlVj9dwEJIxmjWMA4v---AHT0OnG2UTMISmpWdyZjhHcXpOP79M0UL74jzZlBGRBM6ceV8I342zAOKAkVWpF9Q7xGndNhk1C8mKmVCW3Xo---4O8E2wd2QIlq0VTb9STF5gq4FTI5l7UkATTwuwiq+Fck7O1LIblojQKEBaOa0KN+7T---bnpCbRE5lxf2ae4h6L6fIuSWaq4WroFJdOm64---jdoOjFydxfGEpWLRcY2PH0fKxNTTSq2nTP4mkN8IB7OStCJEu5zxPJg+vxPy43Pxc6A=="';
+		$ARGV[$current] = '"http://premium1.monkeydevices.com:9988/play?count=114"';
+		$replace = 0;
 	}
 }
 $arglist = createArglist();
