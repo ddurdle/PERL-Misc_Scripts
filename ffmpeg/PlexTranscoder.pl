@@ -92,7 +92,7 @@ if (PREFER_GOOGLE_TRANSCODE){
 	}else{
 		$video .= '&preferred_quality=0&override=true';
 	}
-
+}
 if ($arglist =~ m% dash %){
 	$arglist =~ s%\-i .* -f dash%\-i "$video" \-codec\:v\:0 copy \-copyts \-vsync \-1 \-codec\:a\:0 copy \-copypriorss\:a\:0 0 \-f dash%;
 
