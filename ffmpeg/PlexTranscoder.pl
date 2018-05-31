@@ -83,8 +83,9 @@ foreach my $current (0 .. $#ARGV) {
 $arglist = createArglist();
 
 
+		print "$PATH_TO_TRANSCODER $arglist \n\n";
 # request is for subtitle remuxing
-		$pid = open ( LS, '-|', $$PATH_TO_TRANSCODER . ' ' . $arglist . ' 2>&1');
+		$pid = open ( LS, '-|', $PATH_TO_TRANSCODER . ' ' . $arglist . ' 2>&1');
 		my $output = do{ local $/; <LS> };
 		close LS;
 		#my $output = `/u01/ffmpeg-git-20171123-64bit-static/ffmpeg $arglist -v error 2>&1`;
