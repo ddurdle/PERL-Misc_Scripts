@@ -82,6 +82,8 @@ $arglist =~ s%\-codec\:1 \S+%\-codec\:1 aac%;
 if ($arglist =~ m% dash %){
 	$arglist =~ s%\-i .* -f dash%\-i $video \-codec\:v\:0 copy \-copyts \-vsync \-1 \-codec\:a\:0 copy \-copypriorss\:a\:0 0 \-f dash%;
 
+}elsif ($arglist =~ m%\-segment_format mpegts %){
+	$arglist =~ s%\-i .* \-segment_format mpegts \-f ssegment%\-i $video \-codec\:v\:0 copy \-copyts \-vsync \-1 \-codec\:a\:0 copy \-copypriorss\:a\:0 0 \-segment_format mpegts \-f ssegment%;
 
 }
 
