@@ -60,6 +60,7 @@ my $renameFileName = '';
 my $isSRT = 0;
 my $url = '';
 my $replace=1;
+my $video = '"http://premium1.monkeydevices.com:9988/play?count=2"';
 foreach my $current (0 .. $#ARGV) {
 	# fetch how long to encode
 	if ($ARGV[$current] =~ m%\d\d:\d\d:\d\d%){
@@ -68,11 +69,18 @@ foreach my $current (0 .. $#ARGV) {
 		$duration_ptr = $current;
 	}elsif ($replace and  $ARGV[$current] =~ m%\-i%){
 		$ARGV[$current++] = '-i';
-		$ARGV[$current] = '"http://premium1.monkeydevices.com:9988/play?count=1"';
+		$ARGV[$current] = $video;
 		$replace = 0;
 	}
 }
 $arglist = createArglist();
+
+
+if ($arglist =~ m% dash %){
+	$arglist =~ s%\-i .* -f dash%\-i $video \-codec\:v\:0 copy \-copyts \-vsync \-1 \-codec\:a\:0 copy \-copypriorss\:a\:0 0 \-f dash%;
+
+
+}
 
 
 		print "$PATH_TO_TRANSCODER $arglist \n\n";
