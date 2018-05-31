@@ -68,7 +68,7 @@ foreach my $current (0 .. $#ARGV) {
 		$duration_ptr = $current;
 	}elsif ($replace and  $ARGV[$current] =~ m%\-i%){
 		$ARGV[$current++] = '-i';
-		$ARGV[$current] = '"http://premium1.monkeydevices.com:9988/play?count=114"';
+		$ARGV[$current] = '"http://premium1.monkeydevices.com:9988/play?count=1"';
 		$replace = 0;
 	}
 }
