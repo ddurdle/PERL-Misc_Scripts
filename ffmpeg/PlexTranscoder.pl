@@ -67,7 +67,7 @@ foreach my $current (0 .. $#ARGV) {
 		$duration_ptr = $current;
 	}elsif ( $ARGV[$current] =~ m%\-i%){
 		$ARGV[$current++] = '-i';
-		$ARGV[$current] = '"http://premium1.monkeydevices.com:9988/default.py?kv=1jlVj9dwEJIxmjWMA4v---AHT0OnG2UTMISmpWdyZjhHdEBbBroDgtoB93AiEj6llFjb79tFAinvBwE+zeZbRzDA43LYOYEA8jYkIX352SRPTN1hrzq5r3wZMQNdrffcKsTpm1IqN0uXxc6GAIFWVhvyE4PLXq+dWNqzpyHaECVT87DuTFA12hdAswU++7ho1S05GciT32Tg+46odZc0LPwrX5agJqR7tdqDZI5IEFAdRqEh---ayrU9SSb4nTiQkVyJ---tUAOBMtWrSCbOehv++ipQ=="';
+		$ARGV[$current] = '"http://premium1.monkeydevices.com:9988/default.py?kv=1jlVj9dwEJIxmjWMA4v---AHT0OnG2UTMISmpWdyZjhHcXpOP79M0UL74jzZlBGRBM6ceV8I342zAOKAkVWpF9Q7xGndNhk1C8mKmVCW3Xo---4O8E2wd2QIlq0VTb9STF5gq4FTI5l7UkATTwuwiq+Fck7O1LIblojQKEBaOa0KN+7T---bnpCbRE5lxf2ae4h6L6fIuSWaq4WroFJdOm64---jdoOjFydxfGEpWLRcY2PH0fKxNTTSq2nTP4mkN8IB7OStCJEu5zxPJg+vxPy43Pxc6A=="';
 	}
 }
 $arglist = createArglist();
