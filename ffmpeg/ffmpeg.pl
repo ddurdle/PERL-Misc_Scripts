@@ -32,7 +32,7 @@ $SIG{TRAP} = sub {  kill 'KILL', $pid;die "Caught a trap $pid $!"; };
 $SIG{STOP} = sub {  kill 'KILL', $pid;die "Caught a stop $pid $!"; };
 
 my $FFMPEG_OEM = PATH_TO_EMBY_FFMPEG.'/ffmpeg.oem -timeout 5000000 ';
-my $FFMPEG = $FFMPEG_OEM;#PATH_TO_FFMPEG . '/ffmpeg -timeout 5000000 ';
+my $FFMPEG = PATH_TO_EMBY_FFMPEG.'/ffmpeg.oem ';
 my $FFMPEG_TEST = PATH_TO_EMBY_FFMPEG.'/ffmpeg.oem -reconnect 1 -reconnect_at_eof 1 -reconnect_streamed 1 -reconnect_delay_max 2000 -timeout 5000000 ';
 my $FFPROBE = PATH_TO_EMBY_FFMPEG .'/ffprobe ';
 
@@ -172,7 +172,7 @@ if ($isSRT){
 		if ($arglist =~ m%\-pix_fmt yuv420p%){
 			$arglist =~ s%\-codec\:v\:0 .* -f segment%\-codec\:v\:0 copy \-copyts \-vsync \-1 \-codec\:a\:0 copy \-copypriorss\:a\:0 0 \-f segment%;
 		}
-		print STDERR "running LIVETV " . $FFMPEG . ' ' . $arglist . "\n";
+		print STDERR "running LIVETV " . $FFMPEG_OEM . ' ' . $arglist . "\n";
 
 		#$pid = open ( LS, '-|', $FFMPEG . ' ' . $arglist . ' 2>&1');
 		#my $output = do{ local $/; <LS> };
@@ -216,7 +216,7 @@ if ($isSRT){
 	while ($now > 59 and $failures < 100){
 	  	$arglist = createArglist();
 		print STDERR 'run ffmpeg  -v error ' . $arglist . "\n";
-		`$FFMPEG $arglist -v error`;
+		`$FFMPEG_OEM $arglist -v error`;
 		#$pid = open ( LS, '-|', '/u01/ffmpeg-git-20171123-64bit-static/ffmpeg  -v error ' . $arglist . ' 2>&1');
 		#my $output = do{ local $/; <LS> };
 		#close LS;
@@ -268,7 +268,7 @@ if ($isSRT){
 
 
 	for (my $i=0; $i <= $#moveList; $i++){
-		if ($moveList[$i][0] ne $moveList[$i-1][0]){
+		if ($i==0 or $moveList[$i][0] ne $moveList[$i-1][0]){
 
 			move $moveList[$i][0], $moveList[$i][1];
 			print STDERR "move $moveList[$i][0],$moveList[$i][1]\n";
