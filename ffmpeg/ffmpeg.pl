@@ -201,6 +201,8 @@ if ($isSRT){
 
 	my @moveList;
 	my $current=0;
+	my $finalFilename = $ARGV[$filename_ptr];
+	$finalFilename  =~ s%\.ts%\.mp4%;
 	$ARGV[$filename_ptr] =~ s%\.ts%\.$count\.ts%;
 	while (-e $ARGV[$filename_ptr]){
 		$count++;
@@ -248,6 +250,18 @@ if ($isSRT){
 		print STDERR "next iteration " .$now . "\n";
 
 	}
+
+	my $concat = '';
+	for (my $i=0; $i <= $#moveList; $i++){
+		if ($concat eq ''){
+			$concat .= $moveList[$i][0];
+		}else{
+			$concat .= '|'.$moveList[$i][0];
+		}
+
+	}
+	`$FFMPEG -i "$concat" -codec copy $finalFilename`;
+
 
 	for (my $i=0; $i <= $#moveList; $i++){
 		move $moveList[$i][0], $moveList[$i][1];
