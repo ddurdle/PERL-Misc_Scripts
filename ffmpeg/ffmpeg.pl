@@ -255,7 +255,7 @@ if ($isSRT){
 	my $previous = '';
 	for (my $i=0; $i <= $#moveList; $i++){
 		if ($concat eq ''){
-			$concat .= $moveList[$i][0];
+			$concat .= 'concat:'.$moveList[$i][0];
 		}else{
 			if ($moveList[$i][0] ne $moveList[$i-1][0]){
 				$concat .= '|'.$moveList[$i][0];
