@@ -252,21 +252,27 @@ if ($isSRT){
 	}
 
 	my $concat = '';
+	my $previous = '';
 	for (my $i=0; $i <= $#moveList; $i++){
 		if ($concat eq ''){
 			$concat .= $moveList[$i][0];
 		}else{
-			$concat .= '|'.$moveList[$i][0];
+			if ($moveList[$i][0] ne $moveList[$i-1][0]){
+				$concat .= '|'.$moveList[$i][0];
+			}
 		}
 
 	}
-	`$FFMPEG -i "$concat" -codec copy "$finalFilename"`;
+	print STDERR "$FFMPEG -i $concat -codec copy $finalFilename";
+	#`$FFMPEG -i "$concat" -codec copy "$finalFilename"`;
 
 
 	for (my $i=0; $i <= $#moveList; $i++){
-		move $moveList[$i][0], $moveList[$i][1];
-		print STDERR "move $moveList[$i][0],$moveList[$i][1]\n";
+		if ($moveList[$i][0] ne $moveList[$i-1][0]){
 
+			move $moveList[$i][0], $moveList[$i][1];
+			print STDERR "move $moveList[$i][0],$moveList[$i][1]\n";
+		}
 	}
 }
 
