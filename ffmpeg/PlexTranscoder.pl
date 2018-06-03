@@ -61,7 +61,7 @@ my $renameFileName = '';
 my $isSRT = 0;
 my $url = '';
 my $replace=1;
-my $video = 'http://premium1.monkeydevices.com:9988/default.py?kv=1jlVj9dwEJIxmjWMA4v---AHT0OnG2UTMISmpWdyZjhHdwvy77xnZ4Q8cByM9uDYwq93g3mZ1QOmUgF+tEO1OjQietBEGpZ7yRhao+NtK2a+of3pio9CPudpsNi5vznk4K6XeUx3nODVQscg19EjJ1uEN93imOoAOQ1b1re9bInvMLlUl2U1bgQ2Kwa4qc---VFsG---IBjsBhQVljP+C---UfM------WblV4x8p+2saAwwzld35cN5IVh5rfG---nq132blEsZmFekuYt5b7NBjac1ChAPwdBg==';
+my $video = 'http://premium1.monkeydevices.com:9988/default.py?kv=1jlVj9dwEJIxmjWMA4v---AHT0OnG2UTMISmpWdyZjhHewxGUtLClxyG92GEg4sZ8AX2ZCaPJwEOmXa3Da57ejW99Z2MWzePSdAyBgRQ0ZGOg+e7vIrqX7V5kYCEeWMeVzE8DqZrtipfCLHSeJsJf+v9vEhg6nu7WefDoF2GRDokW9vLzY9CB5YtyiXaWGepeB97hILy---IxXJ---G38VSfUXRDL---4o7iJOrAa0pXRlhO3RcXW+t8A6NhiOJ875P2suTGrQXAU6TBgTphX4suflRKeNaYZSMy2o7v5m1QAh41aLRXMaF4YeIbsNNI5y8QNM6oJVIPmDgCtdpIhCxUdBPeVFcEMxGjsCViYCczVSGDNGNhp2DNXzqr5ql6I2mS5v28WMLm5Br3SBD8X8+gVeERgA==';
 foreach my $current (0 .. $#ARGV) {
 	# fetch how long to encode
 	if ($ARGV[$current] =~ m%\d\d:\d\d:\d\d%){
@@ -85,7 +85,7 @@ $arglist =~ s%\-codec\:1 \S+%\-codec\:1 aac%;
 
 if (PREFER_GOOGLE_TRANSCODE){
 
-	if ($arglist =~ m%scale\=w\=1280\:h\=720]%){
+	if ($arglist =~ m%scale\=w\=1280\:h\=720%){
 		$video .= '&preferred_quality=1&override=true';
 	}elsif ($arglist =~ m%scale\=w\=720\:h\=406%){
 		$video .= '&preferred_quality=2&override=true';
