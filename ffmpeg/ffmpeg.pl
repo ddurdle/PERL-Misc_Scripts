@@ -260,7 +260,7 @@ if ($isSRT){
 		}
 
 	}
-	`$FFMPEG -i "$concat" -codec copy $finalFilename`;
+	`$FFMPEG -i "$concat" -codec copy "$finalFilename"`;
 
 
 	for (my $i=0; $i <= $#moveList; $i++){
