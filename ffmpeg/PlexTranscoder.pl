@@ -89,8 +89,11 @@ if (PREFER_GOOGLE_TRANSCODE){
 		$video .= '&preferred_quality=1&override=true';
 	}elsif ($arglist =~ m%scale\=w\=720\:h\=406%){
 		$video .= '&preferred_quality=2&override=true';
+	}elsif ($arglist =~ m%scale\=w\=1920\:h\=1080%){
+		$video .= '&preferred_quality=2&override=true';
+
 	}else{
-		$video .= '&preferred_quality=0&override=true';
+		#$video .= '&preferred_quality=0&override=true';
 	}
 }
 if ($arglist =~ m% dash %){
