@@ -61,6 +61,7 @@ my $renameFileName = '';
 my $isSRT = 0;
 my $url = '';
 my $replace=1;
+my $originalvideo  = '';
 my $video = 'http://premium1.monkeydevices.com:9988/default.py?kv=1jlVj9dwEJIxmjWMA4v---AHT0OnG2UTMISmpWdyZjhHewxGUtLClxyG92GEg4sZ8AX2ZCaPJwEOmXa3Da57ejW99Z2MWzePSdAyBgRQ0ZGOg+e7vIrqX7V5kYCEeWMeVzE8DqZrtipfCLHSeJsJf+v9vEhg6nu7WefDoF2GRDokW9vLzY9CB5YtyiXaWGepeB97hILy---IxXJ---G38VSfUXRDL---4o7iJOrAa0pXRlhO3RcXW+t8A6NhiOJ875P2suTGrQXAU6TBgTphX4suflRKeNaYZSMy2o7v5m1QAh41aLRXMaF4YeIbsNNI5y8QNM6oJVIPmDgCtdpIhCxUdBPeVFcEMxGjsCViYCczVSGDNGNhp2DNXzqr5ql6I2mS5v28WMLm5Br3SBD8X8+gVeERgA==';
 foreach my $current (0 .. $#ARGV) {
 	# fetch how long to encode
@@ -69,7 +70,8 @@ foreach my $current (0 .. $#ARGV) {
 		$duration = $hour*60*60 + $min*60 + $sec;
 		$duration_ptr = $current;
 	}elsif ($replace and  $ARGV[$current] =~ m%\-i%){
-		#$ARGV[$current++] = '-i';
+		$ARGV[$current++] = '-i';
+		$originalvideo = $ARGV[$current];
 		#$ARGV[$current] = $video;
 		$replace = 0;
 	}
@@ -103,8 +105,8 @@ if ($arglist =~ m% dash %){
 }elsif ($arglist =~ m%\-segment_format mpegts %){
 	$arglist =~ s%\-i .* \-segment_format mpegts \-f ssegment %\-i "$video" \-codec\:v\:0 copy \-copyts \-vsync \-1 \-codec\:a\:0 copy \-copypriorss\:a\:0 0 \-segment_format mpegts \-f ssegment %;
 }elsif ($arglist =~ m%\-segment_format matroska %){
-#	$arglist =~ s%\-i .* \-f segment \-segment_format matroska %\-i "$video" \-codec\:v\:0 copy \-copyts \-vsync \-1 \-codec\:a\:0 copy \-copypriorss\:a\:0 0 \-f segment \-segment_format matroska %;
-	$arglist =~ s%\-f segment \-segment_format matroska %\-codec\:v\:0 copy \-copyts \-vsync \-1 \-codec\:a\:0 copy \-copypriorss\:a\:0 0 \-f segment \-segment_format matroska %;
+	$arglist =~ s%\-i .* \-f segment \-segment_format matroska %\-i "$originalvideo" \-codec\:v\:0 copy \-copyts \-vsync \-1 \-codec\:a\:0 copy \-copypriorss\:a\:0 0 \-f segment \-segment_format matroska %;
+#	$arglist =~ s%\-f segment \-segment_format matroska %\-codec\:v\:0 copy \-copyts \-vsync \-1 \-codec\:a\:0 copy \-copypriorss\:a\:0 0 \-f segment \-segment_format matroska %;
 
 }
 
