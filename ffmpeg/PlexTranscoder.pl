@@ -105,9 +105,9 @@ if ($arglist =~ m% dash %){
 }elsif ($arglist =~ m%\-segment_format mpegts %){
 	$arglist =~ s%\-i .* \-segment_format mpegts \-f ssegment %\-i "$video" \-codec\:v\:0 copy \-copyts \-vsync \-1 \-codec\:a\:0 copy \-copypriorss\:a\:0 0 \-segment_format mpegts \-f ssegment %;
 }elsif ($arglist =~ m%\-segment_format matroska %){
-	#$arglist =~ s%\-i .* \-f segment \-segment_format matroska %\-i "$video" \-codec\:v\:0 copy \-copyts \-vsync \-1 \-codec\:a\:0 copy \-copypriorss\:a\:0 0 \-f segment \-segment_format mp4 %;
+	$arglist =~ s%\-i .* \-f segment \-segment_format matroska %\-i "$video" -vcodec libx264 -acodec copy \-f segment \-segment_format matroska %;
 #	$arglist =~ s%\-f segment \-segment_format matroska %\-codec\:v\:0 copy \-copyts \-vsync \-1 \-codec\:a\:0 copy \-copypriorss\:a\:0 0 \-f segment \-segment_format matroska %;
-	$arglist =~ s%\-i "[^\"]+" %\-i "$video" %;
+	#$arglist =~ s%\-i "[^\"]+" %\-i "$video" %;
 
 }
 
