@@ -107,7 +107,7 @@ if ($arglist =~ m% dash %){
 }elsif ($arglist =~ m%\-segment_format matroska %){
 	$arglist =~ s%\-i .* \-f segment \-segment_format matroska .* -segment_list %\-i "$video" \-codec\:v\:0 copy \-copyts \-vsync \-1 \-codec\:a\:0 copy \-copypriorss\:a\:0 0 -segment_format matroska -f ssegment -individual_header_trailer 0 -segment_time 1 -segment_start_number 128 -segment_copyts 1 -segment_time_delta 0.0625 -segment_list %;
 #	$arglist =~ s%\-f segment \-segment_format matroska %\-codec\:v\:0 copy \-copyts \-vsync \-1 \-codec\:a\:0 copy \-copypriorss\:a\:0 0 \-f segment \-segment_format matroska %;
-	$arglist =~ s/chunk\-\%05d/media\-\%05d\.ts/;
+	#$arglist =~ s/chunk\-\%05d/media\-\%05d\.ts/;
 
 }
 
