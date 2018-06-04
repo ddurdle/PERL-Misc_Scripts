@@ -107,11 +107,14 @@ if ($arglist =~ m% dash %){
 
 }
 
+$arglist =~ s%\-loglevel quiet \-loglevel_plex error%%;
+
+
 print LOG "$PATH_TO_TRANSCODER $arglist\n\n";
 close(LOG);
 print "$PATH_TO_TRANSCODER $arglist \n\n";
 
-`$PATH_TO_TRANSCODER $arglist`;
+`$PATH_TO_TRANSCODER $arglist 2>/tmp/testrun`;
 
 
 
