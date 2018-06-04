@@ -108,6 +108,7 @@ if ($arglist =~ m% dash %){
 }
 
 $arglist =~ s%\-loglevel quiet \-loglevel_plex error%%;
+$arglist =~ s%\-segment_format_options live=1 %%;
 
 
 print LOG "$PATH_TO_TRANSCODER $arglist\n\n";
