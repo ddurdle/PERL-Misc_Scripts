@@ -81,8 +81,8 @@ $arglist = createArglist();
 open (LOG, '>>' . LOGFILE) or die $!;
 print LOG "passed in $arglist\n";
 
-$arglist =~ s%\-codec\:0 \S+%\-codec\:0 h264%;
-$arglist =~ s%\-codec\:1 \S+%\-codec\:1 aac%;
+#$arglist =~ s%\-codec\:0 \S+%\-codec\:0 h264%;
+#$arglist =~ s%\-codec\:1 \S+%\-codec\:1 aac%;
 
 
 if (PREFER_GOOGLE_TRANSCODE){
@@ -111,7 +111,7 @@ if ($arglist =~ m% dash %){
 }
 
 $arglist =~ s%\-loglevel quiet \-loglevel_plex error%%;
-$arglist =~ s%\-segment_format_options live=1 %%;
+#$arglist =~ s%\-segment_format_options live=1 %%;
 
 
 print LOG "$PATH_TO_TRANSCODER $arglist\n\n";
