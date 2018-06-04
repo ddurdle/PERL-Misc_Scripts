@@ -69,8 +69,8 @@ foreach my $current (0 .. $#ARGV) {
 		$duration = $hour*60*60 + $min*60 + $sec;
 		$duration_ptr = $current;
 	}elsif ($replace and  $ARGV[$current] =~ m%\-i%){
-		$ARGV[$current++] = '-i';
-		$ARGV[$current] = $video;
+		#$ARGV[$current++] = '-i';
+		#$ARGV[$current] = $video;
 		$replace = 0;
 	}
 }
