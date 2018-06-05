@@ -96,7 +96,9 @@ if (PREFER_GOOGLE_TRANSCODE){
 	}elsif ($arglist =~ m%scale\=w\=3840\:h\=2160% or $arglist =~ m%scale\=w\=3840\:h\=2026%){
 		$video .= '&preferred_quality=3&override=true';
 	}else{
-		$video .= '&preferred_quality=0&override=true';
+		$video .= '&preferred_quality=3&override=true';
+
+#		$video .= '&preferred_quality=0&override=true';
 	}
 }
 if ($arglist =~ m% dash %){
