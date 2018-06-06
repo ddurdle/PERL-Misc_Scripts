@@ -113,6 +113,13 @@ if ($arglist =~ m% dash %){
 
 }
 
+if ($arglist =~ m%\-codec\:2 aac%){
+	$arglist =~ s%\-codec\:2 aac%\-codec\:2 aac%;
+	$arglist =~ s%\-codec:a:0 copy%-i "/u01/recordings/test.m4a" \-codec:a:0 copy%;
+
+}
+
+
 $arglist =~ s%\-loglevel quiet \-loglevel_plex error%%;
 #$arglist =~ s%\-segment_format_options live=1 %%;
 
