@@ -89,8 +89,14 @@ print LOG "passed in $arglist\n";
 #$arglist =~ s%\-codec\:1 \S+%\-codec\:1 aac%;
 
 my $audio = '';
-#if ($arglist =~ m%\-codec\:0 aac%){
-if ($arglist =~ m%\-codec\:\#0x100 aac%){
+if ($arglist =~ m%\-codec\:0 aac%){
+	$arglist =~ s%\-codec\:0 aac%\-codec\:1 aac%;
+	$audio = '-i "/u01/recordings/test3.aac"';
+	if ($seek ne ''){
+		$seek = '-ss ' . $seek . ' ';
+	}
+
+}elsif ($arglist =~ m%\-codec\:\#0x100 aac%){
 	#$arglist =~ s%\-codec\:0 aac%\-codec\:1 aac%;
 	$arglist =~ s%\-codec\:\#0x100 aac%\-codec\:\#0x101 aac%;
 	$audio = '-i "/u01/recordings/test3.aac"';
