@@ -109,6 +109,13 @@ if ($arglist =~ m%\-codec\:0 aac%){
 	if ($seek ne ''){
 		$seek = '-ss ' . $seek . ' ';
 	}
+}elsif ($arglist =~ m%map 0\:0 \-metadata%){
+	$arglist =~ s%map 0\:1 \-metadata%map 0\:0 \-metadata%;
+	$audio = '-i "/u01/recordings/test3.aac"';
+	if ($seek ne ''){
+		$seek = '-ss ' . $seek . ' ';
+	}
+
 
 }else{
 	$seek = '';
