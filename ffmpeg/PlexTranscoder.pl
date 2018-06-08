@@ -97,6 +97,13 @@ if ($arglist =~ m%\-codec\:\#0x100 aac%){
 	if ($seek ne ''){
 		$seek = '-ss ' . $seek . ' ';
 	}
+}elsif ($arglist =~ m%map 0\:\#0x100%){
+	$arglist =~ s%map 0\:\#0x100%map 0\:\#0x101%;
+	$audio = '-i "/u01/recordings/test3.aac"';
+	if ($seek ne ''){
+		$seek = '-ss ' . $seek . ' ';
+	}
+
 }else{
 	$seek = '';
 }
