@@ -79,7 +79,7 @@ foreach my $current (0 .. $#ARGV) {
 		$originalvideo = $ARGV[$current];
 		#$ARGV[$current] = $video;
 		$replace = 0;
-	}elsif ($replace eq 1 and  $ARGV[$current] =~ m%\-i%){
+	}elsif ($replace == 1 and  $ARGV[$current] =~ m%\-i%){
 		$ARGV[$current++] = '-i';
 		$srtfile = '-i "' . $ARGV[$current] . '" ';
 		#$ARGV[$current] = $video;
