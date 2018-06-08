@@ -152,7 +152,12 @@ if ($arglist =~ m% dash %){
 
 }elsif ($arglist =~ m%\-segment_format mpegts %){
 	if ($seek ne ''){
-		$arglist =~ s%\-i .* \-segment_format mpegts \-f ssegment %\-i "$video" $seek $srtfile $seek $audio \-codec\:v\:0 copy \-copyts \-vsync \-1 \-codec\:a aac \-map 0\:v \-map 1\:a \-segment_format mpegts \-f ssegment %;
+		if ($srtfile ne ''){
+		$arglist =~ s%\-i .* \-segment_format mpegts \-f ssegment %\-i "$video" $seek $srtfile $seek $audio \-codec\:v\:0 copy \-copyts \-vsync \-1 \-codec\:a aac \-map 0\:v \-map 2\:a \-segment_format mpegts \-f ssegment %;
+		}else{
+			$arglist =~ s%\-i .* \-segment_format mpegts \-f ssegment %\-i "$video" $seek $audio \-codec\:v\:0 copy \-copyts \-vsync \-1 \-codec\:a aac \-map 0\:v \-map 1\:a \-segment_format mpegts \-f ssegment %;
+
+		}
 	}else{
 		$arglist =~ s%\-i .* \-segment_format mpegts \-f ssegment %\-i "$video" $srtfile $audio \-codec\:v\:0 copy \-copyts \-vsync \-1 \-codec\:a\:0 copy \-copypriorss\:a\:0 0 \-segment_format mpegts \-f ssegment %;
 	}
