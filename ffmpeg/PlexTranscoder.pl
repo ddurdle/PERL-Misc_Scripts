@@ -74,14 +74,15 @@ foreach my $current (0 .. $#ARGV) {
 	}elsif ($replace and  $ARGV[$current] =~ m%\-ss%){
 		$ARGV[$current++] = '-ss';
 		$seek = $ARGV[$current];
-	}elsif ($replace and  $ARGV[$current] =~ m%\-i%){
+	}elsif ($replace==1 and  $ARGV[$current] =~ m%\-i%){
 		$ARGV[$current++] = '-i';
 		$originalvideo = $ARGV[$current];
 		#$ARGV[$current] = $video;
-		$replace = 0;
-	}elsif ($replace == 1 and  $ARGV[$current] =~ m%\-i%){
+		$replace = 2;
+	}elsif ($replace ==2 and  $ARGV[$current] =~ m%\-i%){
 		$ARGV[$current++] = '-i';
 		$srtfile = '-i "' . $ARGV[$current] . '" ';
+		$replace = 3;
 		#$ARGV[$current] = $video;
 	}
 }
