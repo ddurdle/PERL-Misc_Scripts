@@ -145,7 +145,7 @@ if ($arglist =~ m% dash %){
 
 }
 
-if ($arglist =~ m%\-codec\:\#0x02 aac%){
+if (0 and $arglist =~ m%\-codec\:\#0x02 aac%){
 	$arglist =~ s%\-codec\:\#0x02 aac%\-codec\:\#0x01 aac%;
 	$arglist =~ s%\-codec:a:0 copy%-i "/u01/recordings/test.m4a" \-codec:a:0 copy%;
 
