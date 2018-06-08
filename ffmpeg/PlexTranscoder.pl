@@ -146,14 +146,14 @@ if (PREFER_GOOGLE_TRANSCODE){
 	}
 }
 if ($arglist =~ m% dash %){
-	if ($seek ne ''){
+	if ($audio ne ''){
 		$arglist =~ s%\-i .* -f dash%\-i "$video" $seek $srtfile $seek $audio \-codec\:v\:0 copy \-copyts \-vsync \-1 \-codec\:a aac \-map 0\:v \-map 1\:a \-f dash%;
 	}else{
-		$arglist =~ s%\-i .* -f dash%\-i "$video" $srtfile $audio \-codec\:v\:0 copy \-copyts \-vsync \-1 \-codec\:a\:0 copy \-copypriorss\:a\:0 0 \-f dash%;
+		$arglist =~ s%\-i .* -f dash%\-i "$video" $seek $srtfile \-codec\:v\:0 copy \-copyts \-vsync \-1 \-codec\:a\:0 copy \-copypriorss\:a\:0 0 \-f dash%;
 	}
 
 }elsif ($arglist =~ m%\-segment_format mpegts %){
-	if ($seek ne ''){
+	if ($audio ne ''){
 		if ($srtfile ne ''){
 		$arglist =~ s%\-i .* \-segment_format mpegts \-f ssegment %\-i "$video" $seek $srtfile $seek $audio \-codec\:v\:0 copy \-copyts \-vsync \-1 \-codec\:a aac \-map 0\:v \-map 2\:a \-segment_format mpegts \-f ssegment %;
 		}else{
@@ -161,7 +161,7 @@ if ($arglist =~ m% dash %){
 
 		}
 	}else{
-		$arglist =~ s%\-i .* \-segment_format mpegts \-f ssegment %\-i "$video" $srtfile $audio \-codec\:v\:0 copy \-copyts \-vsync \-1 \-codec\:a\:0 copy \-copypriorss\:a\:0 0 \-segment_format mpegts \-f ssegment %;
+		$arglist =~ s%\-i .* \-segment_format mpegts \-f ssegment %\-i "$video" $seek $srtfile \-codec\:v\:0 copy \-copyts \-vsync \-1 \-codec\:a\:0 copy \-copypriorss\:a\:0 0 \-segment_format mpegts \-f ssegment %;
 	}
 #	$arglist =~ s%\-i .* \-segment_format mpegts \-f ssegment %\-i "$video" \-codec\:v\:0 copy \-copyts \-vsync \-1 \-codec\:a\:0 copy \-copypriorss\:a\:0 0 \-segment_format mpegts \-f ssegment %;
 }elsif ($arglist =~ m%\-segment_format matroska %){
