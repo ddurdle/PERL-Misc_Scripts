@@ -81,7 +81,9 @@ foreach my $current (0 .. $#ARGV) {
 		$replace = 2;
 	}elsif ($replace ==2 and  $ARGV[$current] =~ m%\-i%){
 		$ARGV[$current++] = '-i';
-		$srtfile = '-i "' . $ARGV[$current] . '" ';
+		if  ($ARGV[$current] ne '0'){
+			$srtfile = '-i "' . $ARGV[$current] . '" ';
+		}
 		$replace = 3;
 		#$ARGV[$current] = $video;
 	}
