@@ -96,37 +96,32 @@ print LOG "passed in $arglist\n";
 #$arglist =~ s%\-codec\:0 \S+%\-codec\:0 h264%;
 #$arglist =~ s%\-codec\:1 \S+%\-codec\:1 aac%;
 
+if ($srtfile ne '' and $seek ne ''){
+	$srtfile = '-ss ' . $seek . ' ' . $srtfile;
+
+}
+
 my $audio = '';
 if ($arglist =~ m%\-codec\:0 aac%){
 	$arglist =~ s%\-codec\:0 aac%\-codec\:1 aac%;
 	$audio = '-i "/u01/recordings/test3.aac"';
-	if ($seek ne ''){
-		$seek = '-ss ' . $seek . ' ';
-	}
 
 }elsif ($arglist =~ m%\-codec\:\#0x100 aac%){
 	#$arglist =~ s%\-codec\:0 aac%\-codec\:1 aac%;
 	$arglist =~ s%\-codec\:\#0x100 aac%\-codec\:\#0x101 aac%;
 	$audio = '-i "/u01/recordings/test3.aac"';
-	if ($seek ne ''){
-		$seek = '-ss ' . $seek . ' ';
-	}
 }elsif ($arglist =~ m%map 0\:\#0x100%){
 	$arglist =~ s%map 0\:\#0x100%map 0\:\#0x101%;
 	$audio = '-i "/u01/recordings/test3.aac"';
-	if ($seek ne ''){
-		$seek = '-ss ' . $seek . ' ';
-	}
 }elsif ($arglist =~ m%map 0\:0 \-metadata%){
 	$arglist =~ s%map 0\:1 \-metadata%map 0\:0 \-metadata%;
 	$audio = '-i "/u01/recordings/test3.aac"';
-	if ($seek ne ''){
-		$seek = '-ss ' . $seek . ' ';
-	}
 
+}
 
-}else{
-	$seek = '';
+if ($audio ne '' and $seek ne ''){
+	$audio = '-ss ' . $seek . ' ' . $audio;
+
 }
 
 if (PREFER_GOOGLE_TRANSCODE){
@@ -147,22 +142,22 @@ if (PREFER_GOOGLE_TRANSCODE){
 }
 if ($arglist =~ m% dash %){
 	if ($audio ne ''){
-		$arglist =~ s%\-i .* -f dash%\-i "$video" $seek $audio $seek $srtfile \-codec\:v\:0 copy \-copyts \-vsync \-1 \-codec\:a aac \-map 0\:v \-map 1\:a \-f dash%;
+		$arglist =~ s%\-i .* -f dash%\-i "$video" $audio $srtfile \-codec\:v\:0 copy \-copyts \-vsync \-1 \-codec\:a aac \-map 0\:v \-map 1\:a \-f dash%;
 		$arglist =~ s%map 1:s:0 %map 2:s:0 %;
 	}else{
-		$arglist =~ s%\-i .* -f dash%\-i "$video" $seek $srtfile \-codec\:v\:0 copy \-copyts \-vsync \-1 \-codec\:a\:0 copy \-copypriorss\:a\:0 0 \-f dash%;
+		$arglist =~ s%\-i .* -f dash%\-i "$video" $srtfile \-codec\:v\:0 copy \-copyts \-vsync \-1 \-codec\:a\:0 copy \-copypriorss\:a\:0 0 \-f dash%;
 	}
 
 }elsif ($arglist =~ m%\-segment_format mpegts %){
 	if ($audio ne ''){
 		if ($srtfile ne ''){
-		$arglist =~ s%\-i .* \-segment_format mpegts \-f ssegment %\-i "$video" $seek $srtfile $seek $audio \-codec\:v\:0 copy \-copyts \-vsync \-1 \-codec\:a aac \-map 0\:v \-map 2\:a \-segment_format mpegts \-f ssegment %;
+		$arglist =~ s%\-i .* \-segment_format mpegts \-f ssegment %\-i "$video" $srtfile $audio \-codec\:v\:0 copy \-copyts \-vsync \-1 \-codec\:a aac \-map 0\:v \-map 2\:a \-segment_format mpegts \-f ssegment %;
 		}else{
-			$arglist =~ s%\-i .* \-segment_format mpegts \-f ssegment %\-i "$video" $seek $audio \-codec\:v\:0 copy \-copyts \-vsync \-1 \-codec\:a aac \-map 0\:v \-map 1\:a \-segment_format mpegts \-f ssegment %;
+			$arglist =~ s%\-i .* \-segment_format mpegts \-f ssegment %\-i "$video" $audio \-codec\:v\:0 copy \-copyts \-vsync \-1 \-codec\:a aac \-map 0\:v \-map 1\:a \-segment_format mpegts \-f ssegment %;
 
 		}
 	}else{
-		$arglist =~ s%\-i .* \-segment_format mpegts \-f ssegment %\-i "$video" $seek $srtfile \-codec\:v\:0 copy \-copyts \-vsync \-1 \-codec\:a\:0 copy \-copypriorss\:a\:0 0 \-segment_format mpegts \-f ssegment %;
+		$arglist =~ s%\-i .* \-segment_format mpegts \-f ssegment %\-i "$video" $srtfile \-codec\:v\:0 copy \-copyts \-vsync \-1 \-codec\:a\:0 copy \-copypriorss\:a\:0 0 \-segment_format mpegts \-f ssegment %;
 	}
 #	$arglist =~ s%\-i .* \-segment_format mpegts \-f ssegment %\-i "$video" \-codec\:v\:0 copy \-copyts \-vsync \-1 \-codec\:a\:0 copy \-copypriorss\:a\:0 0 \-segment_format mpegts \-f ssegment %;
 }elsif ($arglist =~ m%\-segment_format matroska %){
