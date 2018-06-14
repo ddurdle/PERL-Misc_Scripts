@@ -83,6 +83,9 @@ foreach my $current (0 .. $#ARGV) {
 }
 $arglist = createArglist();
 
+open (LOG, '>>' . LOGFILE) or die $!;
+print LOG "passed in $arglist\n";
+
 
 # request is for subtitle remuxing
 if ($isSRT){
