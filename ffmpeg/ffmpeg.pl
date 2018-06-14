@@ -20,6 +20,8 @@ use constant PREFER_GOOGLE_TRANSCODE => 1;
 use constant PATH_TO_EMBY_FFMPEG => '/opt/emby-server/bin/';
 use constant PATH_TO_FFMPEG => '/u01/ffmpeg-git-20171123-64bit-static/';
 
+use constant LOGFILE => '/tmp/transcode.log';
+
 
 my $pidi=0;
 
@@ -95,6 +97,7 @@ if ($isSRT){
 		die("SRT transcoding is disabled.");
 	}else{
 		print STDERR "running " . 'ffmpeg ' . $arglist . "\n";
+        print LOG "running " . 'ffmpeg ' . $arglist . "\n\n";
 
 		`$FFMPEG_OEM $arglist`;
 	}
@@ -125,6 +128,8 @@ if ($isSRT){
 		$arglist =~ s%\-f matroska,webm %\-f mp4 %;
 
 		print STDERR "URL = $url, $arglist\n";
+	    print LOG "URL = $url, $arglist\n\n";
+
 		#`$FFMPEG_OEM $arglist`;
 		$pid = open ( LS, '-|', $FFMPEG_OEM . ' ' . $arglist . ' 2>&1');
 		my $output = do{ local $/; <LS> };
@@ -134,6 +139,7 @@ if ($isSRT){
 		# no transcoding available
 		if($output =~ m%moov atom not found%){
 			$arglist =~ s%\-f mp4 %\-f matroska,webm %;
+			print LOG "$FFMPEG_OEM $arglist\n\n";
 			`$FFMPEG_OEM $arglist`;
 		}
 
@@ -152,6 +158,7 @@ if ($isSRT){
 				$arglist =~ s%\-f matroska,webm %\-f mp4 %;
 
 				print STDERR "URL = $url, $arglist\n";
+                print LOG "URL = $url, $arglist\n\n";
 				`$FFMPEG_OEM $arglist`;
 			# reject the playback request
 			}else{
@@ -176,6 +183,7 @@ if ($isSRT){
 			$arglist =~ s%\-codec\:v\:0 .* -f segment%\-codec\:v\:0 copy \-copyts \-vsync \-1 \-codec\:a\:0 copy \-copypriorss\:a\:0 0 \-f segment%;
 		}
 		print STDERR "running LIVETV " . $FFMPEG_OEM . ' ' . $arglist . "\n";
+        print LOG "running LIVETV " . $FFMPEG_OEM . ' ' . $arglist . "\n\n";
 
 		#$pid = open ( LS, '-|', $FFMPEG . ' ' . $arglist . ' 2>&1');
 		#my $output = do{ local $/; <LS> };
@@ -267,6 +275,7 @@ if ($isSRT){
 
 	}
 	print STDERR "$FFMPEG -i $concat -codec copy $finalFilename";
+    print LOG "$FFMPEG -i $concat -codec copy $finalFilename\n\n";
 	`$FFMPEG -i "$concat" -codec copy "$finalFilename"`;
 
 
@@ -279,4 +288,4 @@ if ($isSRT){
 	}
 }
 
-
+close(LOG);
