@@ -127,7 +127,7 @@ if ($isSRT){
 
 		if ($arglist =~ m%\-map 0\:2 %){
 			$arglist =~ s%\-map 0\:2 %\-map 0\:1 %;
-			$arglist =~ s%\-i "([^\"]+)" %\-i "$1" "/u01/recordings/test3.aac" %;
+			$arglist =~ s%\-i "([^\"]+)" %\-i "$1" \-i "/u01/recordings/test3.aac" %;
 
 		}
 
