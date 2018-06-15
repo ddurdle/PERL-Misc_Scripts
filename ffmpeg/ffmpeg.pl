@@ -125,7 +125,11 @@ if ($isSRT){
 			$arglist =~ s%\"?\Q$url\E\"?%\"$url\&preferred_quality\=0\&override\=true\"%;
 		}
 
-		$arglist =~ s%\-map 0\:2 %-i "/u01/recordings/test3.aac" \-map 0\:1 %;
+		if ($arglist =~ m%\-map 0\:2 %){
+			$arglist =~ s%\-map 0\:2 %\-map 0\:1 %;
+			$arglist =~ s%\-i "([^\"]+)" %\-i "$1" "/u01/recordings/test3.aac" %;
+
+		}
 
 
 		$arglist =~ s%\-f matroska,webm %\-f mp4 %;
