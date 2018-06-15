@@ -128,6 +128,7 @@ if ($isSRT){
 		if ($arglist =~ m%\-map 0\:2 %){
 			$arglist =~ s%\-map 0\:2 %\-map 1\:0 %;
 			$arglist =~ s%\-i "([^\"]+)" %\-i "$1" \-i "/u01/recordings/test3.aac" %;
+			$arglist =~ s%\-codec\:a\:0 copy \-copypriorss\:a\:0 0  %\-codec\:a aac %;
 
 		}
 
