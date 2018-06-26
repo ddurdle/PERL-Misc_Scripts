@@ -42,7 +42,7 @@ foreach my $f (@thefiles)
   unless ($f eq '.' or $f eq '..'){
 
 	# skip *_resize directory
-    if (-d "$directory/$f" and $f =~ m%_resize$%){
+    if (-d "$directory/$f" and $f =~ m%_resized$%){
    		print STDERR "skipping _resize $f\n";
 
     }elsif (-d "$directory/$f"){
