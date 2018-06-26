@@ -45,7 +45,7 @@ foreach my $f (@thefiles)
       print STDERR "navigating into $f\n";
       scanDir("$directory/$f","$directoryDestination/$f");
     }else{
-	  mkdir $directoryDestinationLocal if (!(-e $directoryDestinationLocal));
+	  mkdir -p $directoryDestinationLocal if (!(-e $directoryDestinationLocal));
 
       if (!(-e "$directoryDestinationLocal/$f")){
         print STDERR "start resize $f...";
