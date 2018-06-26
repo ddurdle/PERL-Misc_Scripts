@@ -41,7 +41,11 @@ foreach my $f (@thefiles)
 
   unless ($f eq '.' or $f eq '..'){
 
-    if (-d "$directory/$f"){
+	# skip *_resize directory
+    if (-d "$directory/$f" and $f =~ m%_resize$%){
+   		print STDERR "skipping _resize $f\n";
+
+    }elsif (-d "$directory/$f"){
       print STDERR "navigating into $f\n";
       scanDir("$directory/$f","$directoryDestination/$f");
     }else{
