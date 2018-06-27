@@ -48,7 +48,10 @@ foreach my $f (@thefiles)
     }elsif (-d "$directory/$f"){
       print STDERR "navigating into $f\n";
       scanDir("$directory/$f","$directoryDestination/$f");
-    }else{
+
+	#images only
+    }elsif ($f =~ m%\.jpg$%i or $f =~ m%\.png$%i or $f =~ m%\.gif$%i){
+
 	  mkdir $directoryDestinationLocal if (!(-e $directoryDestinationLocal));
 
       if (!(-e "$directoryDestinationLocal/$f")){
@@ -68,7 +71,8 @@ foreach my $f (@thefiles)
       }else{
         print STDERR "start skipping $f\n";
       }
-
+    }else{
+		print STDERR "skipping non-pic $f\n";
     }
   }
 
